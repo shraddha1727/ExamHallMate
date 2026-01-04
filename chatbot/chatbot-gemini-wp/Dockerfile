@@ -19,6 +19,8 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
+RUN mkdir -p /usr/src/app/auth_data && chmod 777 /usr/src/app/auth_data
+
 RUN npm install --only=production
 
 COPY . .

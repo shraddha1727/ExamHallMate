@@ -1,4 +1,3 @@
-```javascript
 const { Client, LocalAuth } = require("whatsapp-web.js");
 const qrcode = require("qrcode-terminal");
 const { handleMessage } = require("./ai-handler.js");
@@ -24,20 +23,20 @@ class WhatsAppManager {
 
   setupEventHandlers() {
     this.client.on("qr", (qr) => {
-        console.log("👉 QR Code received! Please scan it with WhatsApp:");
-        qrcode.generate(qr, { small: true });
+      console.log("👉 QR Code received! Please scan it with WhatsApp:");
+      qrcode.generate(qr, { small: true });
     });
     this.client.on("remote_session_saved", () => {
-        console.log("💾 Session saved successfully!");
+      console.log("💾 Session saved successfully!");
     });
     this.client.on("loading_screen", (percent, message) => {
-        console.log(`⏳ Loading WhatsApp... ${ percent }% ${ message || '' } `);
+      console.log(`⏳ Loading WhatsApp... ${percent}% ${message || ''} `);
     });
     this.client.on("authenticated", () => {
-        console.log("✅ Authenticated!");
+      console.log("✅ Authenticated!");
     });
     this.client.on("auth_failure", (msg) => {
-        console.error("❌ Authentication failure:", msg);
+      console.error("❌ Authentication failure:", msg);
     });
     this.client.on("ready", () =>
       console.log("✅ WhatsApp client is ready! The bot is now running.")
@@ -57,18 +56,18 @@ class WhatsAppManager {
     let contactNumber = message.from;
 
     try {
-        const contact = await message.getContact();
-        contactName = contact.pushname || contact.name || "Unknown";
-        contactNumber = contact.number || message.from;
+      const contact = await message.getContact();
+      contactName = contact.pushname || contact.name || "Unknown";
+      contactNumber = contact.number || message.from;
     } catch (err) {
-        const errorMsg = err.message.includes('Evaluation failed') 
-            ? 'Contact info unavailable (WA Web selector issue)' 
-            : err.message;
-        console.warn(`⚠️ Could not retrieve contact details for ${ message.from }: ${ errorMsg } `);
+      const errorMsg = err.message.includes('Evaluation failed')
+        ? 'Contact info unavailable (WA Web selector issue)'
+        : err.message;
+      console.warn(`⚠️ Could not retrieve contact details for ${message.from}: ${errorMsg} `);
     }
 
     console.log(
-      `\n📬 Message received from ${ contactName } (${ contactNumber }): "${message.body}"`
+      `\n📬 Message received from ${contactName} (${contactNumber}): "${message.body}"`
     );
 
     try {

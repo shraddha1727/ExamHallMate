@@ -1,55 +1,43 @@
-const { Client, RemoteAuth } = require("whatsapp-web.js");
+const { Client, LocalAuth } = require("whatsapp-web.js");
 const qrcode = require("qrcode-terminal");
 const { handleMessage } = require("./ai-handler.js");
-const mongoose = require('mongoose');
-const { MongoStore } = require('wwebjs-mongo');
 
 class WhatsAppManager {
   constructor() {
     this.client = null;
     this.qrCodeData = null;
+    this.isReady = false; // Track readiness
   }
 
-  async initialize() {
-    console.log("🚀 Initializing MongoDB connection for WhatsApp Session...");
+  initialize() {
+    console.log("🚀 Initializing WhatsApp Client with LocalAuth...");
 
-    try {
-      await mongoose.connect(process.env.MONGODB_URI);
-      console.log("✅ Connected to MongoDB (Mongoose)");
+    this.client = new Client({
+      authStrategy: new LocalAuth({
+        dataPath: '/usr/src/app/.wwebjs_auth' // Explicit path for volume mounting
+      }),
+      webVersionCache: {
+        type: 'remote',
+        remotePath: 'https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2412.54.html',
+      },
+      puppeteer: {
+        headless: true,
+        args: [
+          "--no-sandbox",
+          "--disable-setuid-sandbox",
+          "--disable-dev-shm-usage",
+          "--disable-accelerated-2d-canvas",
+          "--no-first-run",
+          "--no-zygote",
+          "--disable-gpu",
+        ],
+        timeout: 60000,
+      },
+    });
 
-      const store = new MongoStore({ mongoose: mongoose });
-
-      this.client = new Client({
-        authStrategy: new RemoteAuth({
-          store: store,
-          backupSyncIntervalMs: 60000 // Save every 60 seconds (Minimum allowed)
-        }),
-        webVersionCache: {
-          type: 'remote',
-          remotePath: 'https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2412.54.html',
-        },
-        puppeteer: {
-          headless: true,
-          args: [
-            "--no-sandbox",
-            "--disable-setuid-sandbox",
-            "--disable-dev-shm-usage",
-            "--disable-accelerated-2d-canvas",
-            "--no-first-run",
-            "--no-zygote",
-            "--disable-gpu",
-          ],
-          timeout: 60000,
-        },
-      });
-
-      this.setupEventHandlers();
-      console.log("🚀 Starting WhatsApp Client...");
-      this.client.initialize();
-
-    } catch (err) {
-      console.error("❌ Failed to connect to MongoDB/WhatsApp:", err);
-    }
+    this.setupEventHandlers();
+    console.log("🚀 Starting WhatsApp Client...");
+    this.client.initialize();
   }
 
   setupEventHandlers() {
@@ -60,22 +48,26 @@ class WhatsAppManager {
       console.log(`RAW_QR_CODE: ${qr}`);
       qrcode.generate(qr, { small: true });
     });
-    this.client.on("remote_session_saved", () => {
-      console.log("💾 Session saved successfully!");
-    });
+
     this.client.on("loading_screen", (percent, message) => {
       console.log(`⏳ Loading WhatsApp... ${percent}% ${message || ''} `);
     });
+
     this.client.on("authenticated", () => {
       console.log("✅ Authenticated!");
     });
+
     this.client.on("auth_failure", (msg) => {
       console.error("❌ Authentication failure:", msg);
     });
-    this.client.on("ready", () =>
-      console.log("✅ WhatsApp client is ready! The bot is now running.")
-    );
+
+    this.client.on("ready", () => {
+      this.isReady = true;
+      console.log("✅ WhatsApp client is ready! The bot is now running.");
+    });
+
     this.client.on("message", this.onMessage.bind(this));
+
     this.client.on("disconnected", (reason) => {
       console.log("🔌 WhatsApp client was disconnected:", reason);
       process.exit(1);
@@ -83,6 +75,11 @@ class WhatsAppManager {
   }
 
   async onMessage(message) {
+    if (!this.isReady) {
+      console.log(`⏳ Ignoring message from ${message.from} because bot is not ready.`);
+      return;
+    }
+
     const chat = await message.getChat();
     if (chat.isGroup || !message.body) return;
 
@@ -105,8 +102,6 @@ class WhatsAppManager {
     );
 
     try {
-      // We pass the message AND the chat object to the handler.
-      // The handler will now be responsible for managing the "typing" state.
       await handleMessage(message, chat);
     } catch (error) {
       console.error("A critical error occurred in the message handler:", error);
@@ -116,8 +111,6 @@ class WhatsAppManager {
       );
     }
   }
-
-
 }
 
 module.exports = WhatsAppManager;

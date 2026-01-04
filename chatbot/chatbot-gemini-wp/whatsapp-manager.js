@@ -9,6 +9,8 @@ class WhatsAppManager {
       puppeteer: {
         headless: true, // Must be true for Docker
         args: [
+          "--no-sandbox",
+          "--disable-setuid-sandbox",
           "--disable-dev-shm-usage",
           "--disable-accelerated-2d-canvas",
           "--no-first-run",

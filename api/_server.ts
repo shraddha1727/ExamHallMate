@@ -648,6 +648,11 @@ app.post('/api/exams/bulk', async (req: Request, res: Response) => {
 ======================= */
 app.get('/api/health', (_req, res) => res.send('OK'));
 
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.error('Unhandled Server Error:', err);
+  res.status(500).json({ error: 'Internal Server Error' });
+});
+
 app.use((req, res) => {
   res.status(404).json({ error: `No route for ${req.method} ${req.url}` });
 });
@@ -677,8 +682,6 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     }
   })();
 } else {
-  // For Vercel environment - ideally we'd connect to DB per request or reuse connection logic adapted for serverless
-  // but for now exporting app is key. 
-  // We might need to ensure DB connection is handled.
-  getDB().then(db => { globalDb = db; }).catch(console.error);
+  // For Vercel: Do nothing here. dbMiddleware handles the connection.
+  console.log('✅ App loaded in Serverless mode');
 }

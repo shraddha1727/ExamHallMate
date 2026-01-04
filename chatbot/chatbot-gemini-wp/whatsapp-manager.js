@@ -1,31 +1,55 @@
-const { Client, LocalAuth } = require("whatsapp-web.js");
+const { Client, RemoteAuth } = require("whatsapp-web.js");
 const qrcode = require("qrcode-terminal");
 const { handleMessage } = require("./ai-handler.js");
+const mongoose = require('mongoose');
+const { MongoStore } = require('wwebjs-mongo');
 
 class WhatsAppManager {
   constructor() {
-    this.client = new Client({
-      authStrategy: new LocalAuth(),
-      webVersionCache: {
-        type: 'remote',
-        remotePath: 'https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2412.54.html',
-      },
-      puppeteer: {
-        headless: true, // Must be true for Docker
-        args: [
-          "--no-sandbox",
-          "--disable-setuid-sandbox",
-          "--disable-dev-shm-usage",
-          "--disable-accelerated-2d-canvas",
-          "--no-first-run",
-          "--no-zygote",
-          "--disable-gpu",
-        ],
-        timeout: 60000,
-      },
-    });
-    this.qrCodeData = null; // Store QR code data
-    this.setupEventHandlers();
+    this.client = null;
+    this.qrCodeData = null;
+  }
+
+  async initialize() {
+    console.log("🚀 Initializing MongoDB connection for WhatsApp Session...");
+
+    try {
+      await mongoose.connect(process.env.MONGODB_URI);
+      console.log("✅ Connected to MongoDB (Mongoose)");
+
+      const store = new MongoStore({ mongoose: mongoose });
+
+      this.client = new Client({
+        authStrategy: new RemoteAuth({
+          store: store,
+          backupSyncIntervalMs: 300000
+        }),
+        webVersionCache: {
+          type: 'remote',
+          remotePath: 'https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2412.54.html',
+        },
+        puppeteer: {
+          headless: true,
+          args: [
+            "--no-sandbox",
+            "--disable-setuid-sandbox",
+            "--disable-dev-shm-usage",
+            "--disable-accelerated-2d-canvas",
+            "--no-first-run",
+            "--no-zygote",
+            "--disable-gpu",
+          ],
+          timeout: 60000,
+        },
+      });
+
+      this.setupEventHandlers();
+      console.log("🚀 Starting WhatsApp Client...");
+      this.client.initialize();
+
+    } catch (err) {
+      console.error("❌ Failed to connect to MongoDB/WhatsApp:", err);
+    }
   }
 
   setupEventHandlers() {
@@ -93,10 +117,7 @@ class WhatsAppManager {
     }
   }
 
-  initialize() {
-    console.log("🚀 Initializing WhatsApp client...");
-    this.client.initialize();
-  }
+
 }
 
 module.exports = WhatsAppManager;

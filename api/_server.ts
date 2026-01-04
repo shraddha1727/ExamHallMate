@@ -3,7 +3,25 @@ console.log('--- THIS IS THE LATEST VERSION ---');
 import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import { getDB } from '../services/database.js';
+import { MongoClient, Db } from 'mongodb';
+
+// --- INLINED DATABASE LOGIC START ---
+const uri = process.env.MONGODB_URI;
+const dbName = process.env.MONGODB_DB_NAME || 'spi';
+let cachedDb: Db | null = null;
+
+async function getDB(): Promise<Db> {
+  if (cachedDb) return cachedDb;
+  if (!uri) throw new Error('MONGODB_URI is missing');
+
+  const client = new MongoClient(uri, {
+    serverSelectionTimeoutMS: 5000,
+  });
+  await client.connect();
+  cachedDb = client.db(dbName);
+  return cachedDb;
+}
+// --- INLINED DATABASE LOGIC END ---
 import { v4 as uuidv4 } from 'uuid';
 import { Db } from 'mongodb';
 import bcrypt from 'bcrypt';

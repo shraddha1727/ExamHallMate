@@ -26,6 +26,8 @@ class WhatsAppManager {
   setupEventHandlers() {
     this.client.on("qr", (qr) => {
       console.log("👉 QR Code received! Please scan it with WhatsApp:");
+      console.log("If the QR below is distorted, COPY THIS CODE and generate one online (https://www.the-qrcode-generator.com/):");
+      console.log(`RAW_QR_CODE: ${qr}`);
       qrcode.generate(qr, { small: true });
     });
     this.client.on("remote_session_saved", () => {

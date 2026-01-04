@@ -24,11 +24,13 @@ class WhatsAppManager {
         timeout: 60000,
       },
     });
+    this.qrCodeData = null; // Store QR code data
     this.setupEventHandlers();
   }
 
   setupEventHandlers() {
     this.client.on("qr", (qr) => {
+      this.qrCodeData = qr; // Update stored QR code
       console.log("👉 QR Code received! Please scan it with WhatsApp:");
       console.log("If the QR below is distorted, COPY THIS CODE and generate one online (https://www.the-qrcode-generator.com/):");
       console.log(`RAW_QR_CODE: ${qr}`);

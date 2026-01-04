@@ -57,9 +57,10 @@ app.listen(port, () => {
 process.on('unhandledRejection', (err) => {
     if (
         (err.code === 'EBUSY' && err.syscall === 'unlink') ||
-        (err.message && err.message.includes('EBUSY'))
+        (err.code === 'ENOENT' && err.syscall === 'unlink') || // Ignore missing temp file errors
+        (err.message && (err.message.includes('EBUSY') || err.message.includes('ENOENT')))
     ) {
-        console.warn('⚠️  Warning: Failed to delete a session file due to a file lock. This is common during restarts and can usually be ignored.');
+        console.warn('⚠️  Warning: Transient file error (lock or missing), suppressing crash.', err.message);
     } else {
         console.error('An unhandled error occurred:', err);
         process.exit(1);

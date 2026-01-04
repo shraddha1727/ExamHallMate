@@ -1,3 +1,4 @@
+```javascript
 const { Client, LocalAuth } = require("whatsapp-web.js");
 const qrcode = require("qrcode-terminal");
 const { handleMessage } = require("./ai-handler.js");
@@ -6,15 +7,9 @@ class WhatsAppManager {
   constructor() {
     this.client = new Client({
       authStrategy: new LocalAuth(),
-      webVersionCache: {
-        type: 'remote',
-        remotePath: 'https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2412.54.html',
-      },
       puppeteer: {
-        headless: false, // Window dikhega taaki hum scan kar sakein
+        headless: true, // Must be true for Docker
         args: [
-          "--no-sandbox",
-          "--disable-setuid-sandbox",
           "--disable-dev-shm-usage",
           "--disable-accelerated-2d-canvas",
           "--no-first-run",
@@ -36,7 +31,7 @@ class WhatsAppManager {
         console.log("💾 Session saved successfully!");
     });
     this.client.on("loading_screen", (percent, message) => {
-        console.log(`⏳ Loading WhatsApp... ${percent}% ${message || ''}`);
+        console.log(`⏳ Loading WhatsApp... ${ percent }% ${ message || '' } `);
     });
     this.client.on("authenticated", () => {
         console.log("✅ Authenticated!");
@@ -69,11 +64,11 @@ class WhatsAppManager {
         const errorMsg = err.message.includes('Evaluation failed') 
             ? 'Contact info unavailable (WA Web selector issue)' 
             : err.message;
-        console.warn(`⚠️ Could not retrieve contact details for ${message.from}: ${errorMsg}`);
+        console.warn(`⚠️ Could not retrieve contact details for ${ message.from }: ${ errorMsg } `);
     }
 
     console.log(
-      `\n📬 Message received from ${contactName} (${contactNumber}): "${message.body}"`
+      `\n📬 Message received from ${ contactName } (${ contactNumber }): "${message.body}"`
     );
 
     try {

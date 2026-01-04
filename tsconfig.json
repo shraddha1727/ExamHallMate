@@ -25,7 +25,7 @@
     "outDir": "./dist"
   },
   "include": [
-    "api/_server.ts",
+    "api/index.ts",
     "services/**/*.ts",
     "utils/**/*.ts"
   ],

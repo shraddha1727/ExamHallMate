@@ -3,7 +3,7 @@ console.log('--- THIS IS THE LATEST VERSION ---');
 import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import { getDB } from './services/database.js';
+import { getDB } from '../services/database.js';
 import { v4 as uuidv4 } from 'uuid';
 import { Db } from 'mongodb';
 import bcrypt from 'bcrypt';

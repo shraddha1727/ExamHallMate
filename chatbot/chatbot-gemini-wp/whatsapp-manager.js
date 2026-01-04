@@ -22,7 +22,7 @@ class WhatsAppManager {
       this.client = new Client({
         authStrategy: new RemoteAuth({
           store: store,
-          backupSyncIntervalMs: 300000
+          backupSyncIntervalMs: 30000 // Save every 30 seconds to prevent loss on restart
         }),
         webVersionCache: {
           type: 'remote',

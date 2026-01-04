@@ -23,7 +23,7 @@ async function getDB(): Promise<Db> {
 }
 // --- INLINED DATABASE LOGIC END ---
 import { v4 as uuidv4 } from 'uuid';
-import { Db } from 'mongodb';
+
 import bcrypt from 'bcrypt';
 
 /* =======================

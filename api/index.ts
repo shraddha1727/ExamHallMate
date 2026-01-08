@@ -214,7 +214,7 @@ app.get('/api/teachers', async (req: Request, res: Response) => {
 });
 
 app.post('/api/teachers', async (req: Request, res: Response) => {
-    const { id, name, email, password, department } = req.body;
+    const { id, name, email, password, department, phone } = req.body;
 
     if (!name || !email) {
         return res.status(400).json({ error: 'Name & email required' });
@@ -222,7 +222,7 @@ app.post('/api/teachers', async (req: Request, res: Response) => {
 
     try {
         if (id) {
-            const update: any = { name, email, department };
+            const update: any = { name, email, department, phone };
             if (password) {
                 update.password = await bcrypt.hash(password, 10);
             }
@@ -242,6 +242,7 @@ app.post('/api/teachers', async (req: Request, res: Response) => {
                 name,
                 email,
                 department,
+                phone,
                 password: await bcrypt.hash(password, 10),
                 createdAt: new Date()
             });

@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import 'dotenv/config';
+import { pathToFileURL } from 'url';
 
 /* =======================
    INLINED DATABASE LOGIC
@@ -151,6 +152,51 @@ app.post('/api/users/register', async (req: Request, res: Response) => {
     } catch (err) {
         console.error('Register error:', err);
         res.status(500).json({ error: 'Registration failed' });
+    }
+});
+
+/* =======================
+   USER PASSWORD RESET
+======================= */
+app.post('/api/users/reset-password', async (req: Request, res: Response) => {
+    const { email, currentPassword, newPassword, role } = req.body;
+
+    if (!email || !currentPassword || !newPassword || !role) {
+        return res.status(400).json({ error: 'Email, current password, and new password are required' });
+    }
+
+    try {
+        let collection = '';
+        if (role === 'Admin') collection = 'admins';
+        else if (role === 'Staff') collection = 'teachers';
+        else return res.status(400).json({ error: 'Invalid role' });
+
+        const user = await req.db.collection(collection).findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        if (!user.password) {
+            return res.status(400).json({ error: 'Account has no password set. Please contact support.' });
+        }
+
+        const match = await bcrypt.compare(currentPassword, user.password);
+        if (!match) {
+            return res.status(400).json({ error: 'Incorrect current password' });
+        }
+
+        const hashed = await bcrypt.hash(newPassword, 10);
+
+        await req.db.collection(collection).updateOne(
+            { email },
+            { $set: { password: hashed } }
+        );
+
+        res.json({ message: 'Password updated successfully' });
+    } catch (err: any) {
+        console.error('Password reset error:', err);
+        res.status(500).json({ error: 'Failed to reset password: ' + (err.message || 'Unknown error') });
     }
 });
 
@@ -663,8 +709,12 @@ app.use((req, res) => {
 
 export default app; // Export for Vercel
 
-// Only start the server if running directly (not imported)
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Robust check for Main Module in ESM with Windows support
+import { fileURLToPath } from 'url';
+const currentFilePath = fileURLToPath(import.meta.url);
+const executedFilePath = process.argv[1];
+
+if (currentFilePath === executedFilePath || currentFilePath.toLowerCase() === executedFilePath.toLowerCase()) {
     (async () => {
         try {
             globalDb = await getDB();
@@ -677,5 +727,5 @@ if (import.meta.url === `file://${process.argv[1]}`) {
         }
     })();
 } else {
-    console.log('✅ App loaded in Serverless mode');
+    // console.log('✅ App loaded in Serverless mode');
 }

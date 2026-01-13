@@ -49,7 +49,7 @@
     }
 
     .no-print {
-        @apply hidden print:hidden;
+        @apply print:hidden;
     }
 
     .print-only {

@@ -1,3 +1,88 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@plugin "tailwindcss-animate";
+
+@theme {
+    --font-sans: "Inter", "system-ui", "sans-serif";
+
+    --color-university-50: #eff6ff;
+    --color-university-100: #dbeafe;
+    --color-university-200: #bfdbfe;
+    --color-university-300: #93c5fd;
+    --color-university-400: #60a5fa;
+    --color-university-500: #3b82f6;
+    --color-university-600: #2563EB;
+    --color-university-700: #1d4ed8;
+    --color-university-800: #1e40af;
+    --color-university-900: #1E3A8A;
+    --color-university-950: #172554;
+
+    --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
+    --animate-pulse-slow: pulse 3s infinite;
+
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-slate-50 text-slate-900;
+    }
+}
+
+@layer utilities {
+    .print-break-before {
+        break-before: page;
+    }
+
+    .no-print {
+        @apply hidden print:hidden;
+    }
+
+    .print-only {
+        @apply hidden print:block;
+    }
+}
+
+@layer components {
+    .card-base {
+        @apply bg-white rounded border border-slate-200 shadow-sm;
+    }
+
+    .btn-primary {
+        @apply bg-university-900 text-white font-medium py-2 px-4 rounded border border-transparent hover:bg-university-800 transition-colors text-sm flex items-center justify-center;
+    }
+
+    .btn-secondary {
+        @apply bg-white text-slate-700 font-medium py-2 px-4 rounded border border-slate-300 hover:bg-slate-50 transition-colors text-sm flex items-center justify-center;
+    }
+
+    .btn-danger {
+        @apply bg-white text-red-700 font-medium py-2 px-4 rounded border border-red-200 hover:bg-red-50 transition-colors text-sm flex items-center justify-center;
+    }
+
+    .input-field {
+        @apply w-full bg-white border border-slate-300 text-slate-900 text-sm rounded focus:ring-1 focus:ring-university-600 focus:border-university-600 block p-2.5 transition-colors outline-none;
+    }
+
+    .table-header {
+        @apply px-6 py-3 text-xs font-semibold text-slate-600 uppercase tracking-wider bg-slate-50 border-b border-slate-200 text-left;
+    }
+
+    .table-cell {
+        @apply px-6 py-4 whitespace-nowrap text-sm text-slate-900 border-b border-slate-100;
+    }
+}

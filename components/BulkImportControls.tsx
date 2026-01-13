@@ -27,7 +27,7 @@ const BulkImportControls: React.FC<BulkImportControlsProps> = ({ onImportSuccess
       if (parsedStudents.length === 0) {
         throw new Error("CSV file is empty or contains no valid student records (missing enrollNo).");
       }
-      
+
       await bulkUpsertStudentsApi(parsedStudents);
       onImportSuccess();
 
@@ -42,7 +42,7 @@ const BulkImportControls: React.FC<BulkImportControlsProps> = ({ onImportSuccess
       setImportError(errorMessage);
     } finally {
       setIsImporting(false);
-      if(fileInputRef.current) {
+      if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
     }
@@ -53,37 +53,37 @@ const BulkImportControls: React.FC<BulkImportControlsProps> = ({ onImportSuccess
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-        <div className="flex items-center justify-between">
-            <div>
-                <h3 className="text-lg font-semibold text-gray-900">Student Data Management</h3>
-                <p className="text-sm text-gray-500 mt-1">Import, view, and manage student records.</p>
-            </div>
-            <div className="flex items-center space-x-4">
-                <input
-                    type="file"
-                    accept=".csv"
-                    ref={fileInputRef}
-                    onChange={handleFileChange}
-                    className="hidden"
-                    disabled={isImporting}
-                />
-                <button
-                    onClick={handleImportClick}
-                    disabled={isImporting}
-                    className="flex items-center justify-center px-4 py-2 bg-university-900 text-white font-semibold rounded-lg shadow-sm hover:bg-university-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200"
-                >
-                    <UploadCloud className="w-4 h-4 mr-2" />
-                    {isImporting ? 'Importing...' : 'Import from CSV'}
-                </button>
-            </div>
+    <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-bold text-slate-800">Student Data Management</h3>
+          <p className="text-sm text-slate-500 mt-1">Import, view, and manage student records.</p>
         </div>
-        {importError && (
-            <div className="mt-3 flex items-center text-sm text-red-600 bg-red-50 p-3 rounded-md border border-red-200">
-                <AlertCircle className="w-4 h-4 mr-2" />
-                {importError}
-            </div>
-        )}
+        <div className="flex items-center space-x-4">
+          <input
+            type="file"
+            accept=".csv"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            className="hidden"
+            disabled={isImporting}
+          />
+          <button
+            onClick={handleImportClick}
+            disabled={isImporting}
+            className="flex items-center justify-center px-4 py-2.5 bg-university-900 text-white font-bold rounded-lg shadow-sm hover:bg-university-800 disabled:bg-slate-300 disabled:cursor-not-allowed transition-all duration-200"
+          >
+            <UploadCloud className="w-4 h-4 mr-2" />
+            {isImporting ? 'Importing...' : 'Import from CSV'}
+          </button>
+        </div>
+      </div>
+      {importError && (
+        <div className="mt-4 flex items-center text-sm text-red-600 bg-red-50 p-3 rounded-lg border border-red-200">
+          <AlertCircle className="w-4 h-4 mr-2" />
+          {importError}
+        </div>
+      )}
     </div>
   );
 };

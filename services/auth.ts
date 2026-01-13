@@ -68,3 +68,11 @@ export const getCurrentUser = (): string => {
   return localStorage.getItem(KEYS.CURRENT_USER_ID) || 'T001';
 };
 
+export const getCurrentRole = (): UserRole | null => {
+  const session = getSession();
+  if (session) {
+    return session.role;
+  }
+  return (localStorage.getItem(KEYS.CURRENT_ROLE) as UserRole) || null;
+};
+

@@ -10,10 +10,10 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const VIVA_LOGO_URL = "/logo.jpg";
-  
+
   const [activeTab, setActiveTab] = useState<'Admin' | 'Staff'>('Admin');
   const [view, setView] = useState<ViewState>('LOGIN');
-  
+
   useEffect(() => {
     if (location.state && location.state.role) {
       setActiveTab(location.state.role);
@@ -23,12 +23,12 @@ const Login: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    id: '', 
-    department: '', 
+    id: '',
+    department: '',
     password: '',
     confirmPassword: '',
-    currentPassword: '', 
-    newPassword: '' 
+    currentPassword: '',
+    newPassword: ''
   });
 
   const [loading, setLoading] = useState(false);
@@ -49,14 +49,14 @@ const Login: React.FC = () => {
     setTimeout(async () => {
       try {
         const result = await login(formData.email, formData.password);
-        
+
         if (result.success && result.user) {
           if (activeTab === 'Admin' && result.user.role !== 'SuperAdmin') {
             setError('Access Denied. Account does not have Admin privileges.');
             setLoading(false);
             return;
           }
-          
+
           if (activeTab === 'Staff' && result.user.role !== 'Teacher') {
             setError('Invalid Portal. Please use the Admin Login.');
             setLoading(false);
@@ -91,7 +91,7 @@ const Login: React.FC = () => {
       await registerApi(formData, activeTab);
       setSuccessMsg(activeTab === 'Staff' ? "Teacher account created. Please login." : "Admin account created. Please login.");
       setView('LOGIN');
-      setFormData({ ...formData, password: '' }); 
+      setFormData({ ...formData, password: '' });
     } catch (error: any) {
       setError(error.message || "Registration failed");
     } finally {
@@ -121,7 +121,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="min-h-screen flex bg-slate-300 font-sans text-slate-900">
-      
+
       {/* Left Panel - University Branding */}
       <div className="hidden lg:flex w-5/12 bg-indigo-950 flex-col justify-between p-16 text-white relative overflow-hidden">
         <div className="relative z-10">
@@ -145,25 +145,25 @@ const Login: React.FC = () => {
             className="h-32 md:h-40 w-auto object-contain drop-shadow-xl border-4 border-white/75 rounded-2xl bg-white/5"
           />
         </div>
-        
+
         <div className="relative z-10 text-xs text-university-300 font-medium">
-           <p>© 2025 Department of Computer Engineering</p>
+          <p>© 2025 Department of Computer Engineering</p>
         </div>
       </div>
 
       {/* Right Panel - Login Form */}
       <div className="w-full lg:w-7/12 flex flex-col justify-center items-center p-8 bg-white">
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-md animate-fade-in-up">
           <button onClick={() => navigate('/')} className="flex items-center text-xs font-bold text-slate-400 hover:text-slate-800 mb-10 transition-colors uppercase tracking-wide">
-             <ChevronLeft className="w-4 h-4 mr-1" /> Back to Home
+            <ChevronLeft className="w-4 h-4 mr-1" /> Back to Home
           </button>
 
           <div className="bg-white">
             {/* White Background for Logo */}
             <div className="mb-8">
               <h2 className="text-2xl font-bold text-university-900">
-                {view === 'LOGIN' ? (activeTab === 'Admin' ? 'Admin Login' : 'Faculty Login') : 
-                 view === 'REGISTER' ? 'Create Account' : 'Reset Password'}
+                {view === 'LOGIN' ? (activeTab === 'Admin' ? 'Admin Login' : 'Faculty Login') :
+                  view === 'REGISTER' ? 'Create Account' : 'Reset Password'}
               </h2>
               <p className="text-slate-500 mt-2 text-sm">
                 {view === 'LOGIN' ? 'Enter your credentials to access the portal.' : 'Complete the form below.'}
@@ -172,18 +172,18 @@ const Login: React.FC = () => {
 
             {view === 'LOGIN' && (
               <div className="flex bg-slate-100 p-1 rounded mb-8 border border-slate-200">
-                 <button 
-                    onClick={() => setActiveTab('Admin')}
-                    className={`flex-1 py-2 text-sm font-semibold rounded transition-all ${activeTab === 'Admin' ? 'bg-white text-university-900 shadow-sm border border-slate-200' : 'text-slate-500 hover:text-slate-700'}`}
-                 >
-                    Admin
-                 </button>
-                 <button 
-                    onClick={() => setActiveTab('Staff')}
-                    className={`flex-1 py-2 text-sm font-semibold rounded transition-all ${activeTab === 'Staff' ? 'bg-white text-university-900 shadow-sm border border-slate-200' : 'text-slate-500 hover:text-slate-700'}`}
-                 >
-                    Faculty
-                 </button>
+                <button
+                  onClick={() => setActiveTab('Admin')}
+                  className={`flex-1 py-2 text-sm font-semibold rounded transition-all ${activeTab === 'Admin' ? 'bg-white text-university-900 shadow-sm border border-slate-200' : 'text-slate-500 hover:text-slate-700'}`}
+                >
+                  Admin
+                </button>
+                <button
+                  onClick={() => setActiveTab('Staff')}
+                  className={`flex-1 py-2 text-sm font-semibold rounded transition-all ${activeTab === 'Staff' ? 'bg-white text-university-900 shadow-sm border border-slate-200' : 'text-slate-500 hover:text-slate-700'}`}
+                >
+                  Faculty
+                </button>
               </div>
             )}
 
@@ -191,89 +191,89 @@ const Login: React.FC = () => {
             {successMsg && <div className="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 text-sm font-medium rounded-r">{successMsg}</div>}
 
             <form onSubmit={view === 'LOGIN' ? handleLogin : view === 'REGISTER' ? handleRegister : handleReset} className="space-y-5">
-               {view === 'REGISTER' && (
-                 <>
-                   <div className="mb-2 p-3 bg-blue-50 text-blue-800 text-xs rounded border border-blue-100 font-medium">
-                     {activeTab === 'Staff' ? 'Faculty Registration (New Users)' : 'Admin Registration (Authorized Only)'}
-                   </div>
-                   <div>
-                     <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5 ml-1">{activeTab === 'Staff' ? 'Staff ID' : 'Admin ID'}</label>
-                     <input required type="text" name="id" value={formData.id} onChange={handleInputChange} className="input-field py-3" placeholder={activeTab === 'Staff' ? 'T-001' : 'Admin-01'} />
-                   </div>
-                   <div>
-                     <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5 ml-1">Full Name</label>
-                     <input required type="text" name="name" value={formData.name} onChange={handleInputChange} className="input-field py-3" placeholder="John Doe" />
-                   </div>
-                   {activeTab === 'Staff' && (
+              {view === 'REGISTER' && (
+                <>
+                  <div className="mb-2 p-3 bg-blue-50 text-blue-800 text-xs rounded border border-blue-100 font-medium">
+                    {activeTab === 'Staff' ? 'Faculty Registration (New Users)' : 'Admin Registration (Authorized Only)'}
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5 ml-1">{activeTab === 'Staff' ? 'Staff ID' : 'Admin ID'}</label>
+                    <input required type="text" name="id" value={formData.id} onChange={handleInputChange} className="input-field py-3" placeholder={activeTab === 'Staff' ? 'T-001' : 'Admin-01'} />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5 ml-1">Full Name</label>
+                    <input required type="text" name="name" value={formData.name} onChange={handleInputChange} className="input-field py-3" placeholder="John Doe" />
+                  </div>
+                  {activeTab === 'Staff' && (
                     <div>
-                        <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5 ml-1">Department</label>
-                        <input required type="text" name="department" value={formData.department} onChange={handleInputChange} className="input-field py-3" placeholder="CO" />
+                      <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5 ml-1">Department</label>
+                      <input required type="text" name="department" value={formData.department} onChange={handleInputChange} className="input-field py-3" placeholder="CO" />
                     </div>
-                   )}
-                 </>
-               )}
+                  )}
+                </>
+              )}
 
-               <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5 ml-1">Email Address</label>
-                  <input required type="email" name="email" value={formData.email} onChange={handleInputChange} className="input-field py-3" />
-               </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5 ml-1">Email Address</label>
+                <input required type="email" name="email" value={formData.email} onChange={handleInputChange} className="input-field py-3" />
+              </div>
 
-               {view !== 'RESET' && (
-                 <div>
-                    <div className="flex justify-between mb-1.5 ml-1">
-                       <label className="block text-xs font-bold text-slate-700 uppercase">Password</label>
-                       {view === 'LOGIN' && <button type="button" onClick={() => setView('RESET')} className="text-xs text-university-600 hover:text-university-800 font-bold">Forgot Password?</button>}
-                    </div>
-                    <input required type="password" name="password" value={formData.password} onChange={handleInputChange} className="input-field py-3" />
-                 </div>
-               )}
+              {view !== 'RESET' && (
+                <div>
+                  <div className="flex justify-between mb-1.5 ml-1">
+                    <label className="block text-xs font-bold text-slate-700 uppercase">Password</label>
+                    {view === 'LOGIN' && <button type="button" onClick={() => setView('RESET')} className="text-xs text-university-600 hover:text-university-800 font-bold">Forgot Password?</button>}
+                  </div>
+                  <input required type="password" name="password" value={formData.password} onChange={handleInputChange} className="input-field py-3" />
+                </div>
+              )}
 
-               {view === 'REGISTER' && (
-                 <div>
-                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5 ml-1">Confirm Password</label>
+              {view === 'REGISTER' && (
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5 ml-1">Confirm Password</label>
+                  <input required type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleInputChange} className="input-field py-3" />
+                </div>
+              )}
+
+              {view === 'RESET' && (
+                <>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5 ml-1">Current Password</label>
+                    <input required type="password" name="currentPassword" value={formData.currentPassword} onChange={handleInputChange} className="input-field py-3" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5 ml-1">New Password</label>
+                    <input required type="password" name="newPassword" value={formData.newPassword} onChange={handleInputChange} className="input-field py-3" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5 ml-1">Confirm New Password</label>
                     <input required type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleInputChange} className="input-field py-3" />
-                 </div>
-               )}
+                  </div>
+                </>
+              )}
 
-               {view === 'RESET' && (
-                 <>
-                    <div>
-                       <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5 ml-1">Current Password</label>
-                       <input required type="password" name="currentPassword" value={formData.currentPassword} onChange={handleInputChange} className="input-field py-3" />
-                    </div>
-                    <div>
-                       <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5 ml-1">New Password</label>
-                       <input required type="password" name="newPassword" value={formData.newPassword} onChange={handleInputChange} className="input-field py-3" />
-                    </div>
-                    <div>
-                       <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5 ml-1">Confirm New Password</label>
-                       <input required type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleInputChange} className="input-field py-3" />
-                    </div>
-                 </>
-               )}
-
-               <button type="submit" disabled={loading} className="w-full bg-university-900 text-white font-bold py-3.5 px-4 rounded hover:bg-university-800 transition-all flex justify-center items-center mt-8 shadow-sm">
-                 {loading ? <Loader2 className="animate-spin w-5 h-5" /> : (
-                    <>
-                      {view === 'LOGIN' ? 'Secure Login' : view === 'REGISTER' ? 'Register Account' : 'Update Password'}
-                      {view === 'LOGIN' && <ArrowRight className="w-4 h-4 ml-2" />}
-                    </>
-                 )}
-               </button>
+              <button type="submit" disabled={loading} className="w-full bg-university-900 text-white font-bold py-3.5 px-4 rounded hover:bg-university-800 transition-all flex justify-center items-center mt-8 shadow-sm">
+                {loading ? <Loader2 className="animate-spin w-5 h-5" /> : (
+                  <>
+                    {view === 'LOGIN' ? 'Secure Login' : view === 'REGISTER' ? 'Register Account' : 'Update Password'}
+                    {view === 'LOGIN' && <ArrowRight className="w-4 h-4 ml-2" />}
+                  </>
+                )}
+              </button>
             </form>
 
             {view === 'LOGIN' && (
-               <div className="mt-8 text-center pt-6 border-t border-slate-100">
-                  <p className="text-xs text-slate-500">
-                     First time? <button onClick={() => setView('REGISTER')} className="text-university-700 font-bold hover:underline">Activate Account</button>
-                  </p>
-               </div>
+              <div className="mt-8 text-center pt-6 border-t border-slate-100">
+                <p className="text-xs text-slate-500">
+                  First time? <button onClick={() => setView('REGISTER')} className="text-university-700 font-bold hover:underline">Activate Account</button>
+                </p>
+              </div>
             )}
-            
+
             {(view === 'REGISTER' || view === 'RESET') && (
-               <div className="mt-8 text-center pt-6 border-t border-slate-100">
-                  <button onClick={() => setView('LOGIN')} className="text-xs text-slate-500 font-bold hover:text-slate-800">Back to Login</button>
-               </div>
+              <div className="mt-8 text-center pt-6 border-t border-slate-100">
+                <button onClick={() => setView('LOGIN')} className="text-xs text-slate-500 font-bold hover:text-slate-800">Back to Login</button>
+              </div>
             )}
 
           </div>

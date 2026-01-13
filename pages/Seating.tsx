@@ -15,7 +15,7 @@ const Seating: React.FC = () => {
   const [selectedExamId, setSelectedExamId] = useState<string>('');
   const [currentSeating, setCurrentSeating] = useState<SeatingResult | null>(null);
   const [message, setMessage] = useState<{ type: 'success' | 'error' | 'warning'; message: string } | null>(null);
-  
+
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -92,67 +92,75 @@ const Seating: React.FC = () => {
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
       {/* Header & Controls */}
-      <div className="no-print card-base p-8 animate-slide-up">
-         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
-            <div>
-              <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Seating Allocation</h1>
-              <p className="text-slate-500 font-medium mt-2">Generate and visualize student distribution.</p>
+      {/* Header & Controls */}
+      <div className="no-print animate-fade-in-up">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-slate-200">
+          <div>
+            <div className="flex items-center gap-2 mb-2 text-university-600 font-bold uppercase tracking-wider text-xs">
+              <LayoutGrid className="w-4 h-4" /> Exam Management
             </div>
-            <div className="flex gap-3">
-              <button 
-                onClick={handleGenerate}
-                disabled={!selectedExamId}
-                className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed group"
-              >
-                <RefreshCw className="w-4 h-4 mr-2 group-hover:rotate-180 transition-transform duration-500" /> 
-                {currentSeating ? 'Regenerate Plan' : 'Generate Plan'}
-              </button>
-              <button 
-                onClick={() => window.print()}
-                disabled={!currentSeating}
-                className="btn-secondary disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <Printer className="w-4 h-4 mr-2" /> Print PDF
-              </button>
-            </div>
-         </div>
+            <h1 className="text-3xl font-bold text-slate-800">Seating Allocation</h1>
+            <p className="text-slate-500 mt-2 max-w-2xl">
+              Generate, visualize, and print seating plans for upcoming examinations.
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <button
+              onClick={handleGenerate}
+              disabled={!selectedExamId}
+              className="px-5 py-2.5 bg-university-900 text-white font-bold rounded-lg shadow-md hover:bg-university-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2"
+            >
+              <RefreshCw className={`w-4 h-4 ${!selectedExamId ? '' : 'group-hover:rotate-180 transition-transform duration-500'}`} />
+              {currentSeating ? 'Regenerate Plan' : 'Generate Allocation'}
+            </button>
+            <button
+              onClick={() => window.print()}
+              disabled={!currentSeating}
+              className="px-5 py-2.5 bg-white text-slate-700 border border-slate-200 font-bold rounded-lg shadow-sm hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2"
+            >
+              <Printer className="w-4 h-4" /> Print PDF
+            </button>
+          </div>
+        </div>
 
-         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-end bg-slate-50/50 p-6 rounded-2xl border border-slate-100">
-           <div>
-              <label className="block text-xs font-extrabold text-slate-500 uppercase tracking-widest mb-2 ml-1">Select Examination</label>
-              <div className="relative group">
-                <select 
-                  className="w-full h-14 pl-5 pr-10 bg-white border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-slate-700 font-bold appearance-none cursor-pointer shadow-sm transition-all hover:border-brand-300"
-                  value={selectedExamId}
-                  onChange={(e) => setSelectedExamId(e.target.value)}
-                >
-                  {exams.length === 0 && <option value="">No exams scheduled</option>}
-                  {exams.map(e => (
-                    <option key={e.id} value={e.id}>
-                      {e.subjectCode} - {e.subjectName}
-                    </option>
-                  ))}
-                </select>
-                <ChevronRight className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 rotate-90 pointer-events-none group-hover:text-brand-500 transition-colors" />
+        {/* Selection Card */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-end bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+          <div>
+            <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 ml-1">Select Examination</label>
+            <div className="relative group">
+              <Monitor className="absolute left-3 top-3.5 w-5 h-5 text-slate-400" />
+              <select
+                className="w-full h-12 pl-10 pr-10 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-university-500/20 focus:border-university-500 text-slate-700 font-bold appearance-none cursor-pointer transition-all hover:bg-white"
+                value={selectedExamId}
+                onChange={(e) => setSelectedExamId(e.target.value)}
+              >
+                {exams.length === 0 && <option value="">No exams scheduled</option>}
+                {exams.map(e => (
+                  <option key={e.id} value={e.id}>
+                    {e.subjectCode} - {e.subjectName}
+                  </option>
+                ))}
+              </select>
+              <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 rotate-90 pointer-events-none group-hover:text-university-500 transition-colors" />
+            </div>
+          </div>
+
+          <div>
+            {currentSeating ? (
+              <div className="w-full h-12 flex items-center px-6 bg-emerald-50 text-emerald-800 rounded-xl border border-emerald-100 text-sm font-bold shadow-sm">
+                <CheckCircle className="w-5 h-5 mr-3 text-emerald-600" />
+                <div className="flex flex-col">
+                  <span className="text-[10px] text-emerald-600 uppercase tracking-wider leading-none mb-0.5">Status</span>
+                  <span>Ready • Generated {new Date(currentSeating.generatedAt).toLocaleDateString()}</span>
+                </div>
               </div>
-           </div>
-           
-           <div>
-              {currentSeating ? (
-                <div className="w-full h-14 flex items-center px-6 bg-emerald-50/80 text-emerald-800 rounded-xl border border-emerald-100 text-sm font-bold shadow-sm">
-                  <CheckCircle className="w-5 h-5 mr-3 text-emerald-500" />
-                  <div>
-                    <span className="block text-xs text-emerald-600 uppercase tracking-wider">Status</span>
-                    Generated {new Date(currentSeating.generatedAt).toLocaleDateString()}
-                  </div>
-                </div>
-              ) : (
-                <div className="w-full h-14 flex items-center px-6 bg-slate-100 text-slate-400 rounded-xl border border-slate-200 text-sm font-medium italic">
-                  No plan generated yet.
-                </div>
-              )}
-           </div>
-         </div>
+            ) : (
+              <div className="w-full h-12 flex items-center px-6 bg-slate-100 text-slate-400 rounded-xl border border-slate-200 text-sm font-medium italic">
+                No plan generated yet. Select an exam to begin.
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className="no-print">
@@ -162,7 +170,7 @@ const Seating: React.FC = () => {
       {!currentSeating && selectedExam && (
         <div className="text-center py-24 card-base border-dashed border-2 border-slate-200 no-print animate-fade-in">
           <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
-             <Layers className="w-10 h-10 text-slate-300" />
+            <Layers className="w-10 h-10 text-slate-300" />
           </div>
           <h3 className="text-xl font-bold text-slate-800">Ready to Generate</h3>
           <p className="text-slate-400 max-w-sm mx-auto mt-2 leading-relaxed">
@@ -177,21 +185,21 @@ const Seating: React.FC = () => {
           {Object.keys(assignmentsByRoom).sort().map((roomId, idx) => {
             const roomAssignments = assignmentsByRoom[roomId];
             const roomNumber = roomAssignments[0].roomNumber;
-            
+
             return (
-              <div 
-                key={roomId} 
-                className="card-base p-10 print:shadow-none print:border-none print-break-before print:p-0 print:mb-0 print:rounded-none animate-slide-up" 
+              <div
+                key={roomId}
+                className="card-base p-10 print:shadow-none print:border-none print-break-before print:p-0 print:mb-0 print:rounded-none animate-slide-up"
                 style={{ animationDelay: `${idx * 100}ms` }}
               >
                 {/* Print Header */}
                 <div className="border-b-2 border-slate-900 pb-6 mb-8 flex justify-between items-end">
                   <div>
                     <div className="flex items-center gap-3 mb-2">
-                       <h2 className="text-4xl font-extrabold text-slate-900 tracking-tight">Room {roomNumber}</h2>
-                       <div className="no-print px-3 py-1 bg-slate-100 rounded-full text-[10px] font-bold uppercase tracking-wide text-slate-500 border border-slate-200">
-                         Hall View
-                       </div>
+                      <h2 className="text-4xl font-extrabold text-slate-900 tracking-tight">Room {roomNumber}</h2>
+                      <div className="no-print px-3 py-1 bg-slate-100 rounded-full text-[10px] font-bold uppercase tracking-wide text-slate-500 border border-slate-200">
+                        Hall View
+                      </div>
                     </div>
                     <div className="space-y-1">
                       <p className="text-xl font-bold text-slate-700">
@@ -238,7 +246,7 @@ const Seating: React.FC = () => {
                     </tbody>
                   </table>
                 </div>
-                
+
                 {/* Print Footer */}
                 <div className="mt-12 pt-8 border-t border-slate-200 flex justify-between items-center text-xs text-slate-400 print:text-slate-600 print:border-slate-400">
                   <div className="flex items-center">

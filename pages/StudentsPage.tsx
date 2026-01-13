@@ -4,6 +4,7 @@ import DepartmentGrid, { DepartmentStat } from '../components/DepartmentGrid';
 import SemesterGrid from '../components/SemesterGrid';
 import StudentsTable from '../components/StudentsTable';
 import BulkImportControls from '../components/BulkImportControls';
+import { Users, GraduationCap } from 'lucide-react';
 
 type ViewState = 'departments' | 'semesters' | 'table';
 
@@ -53,7 +54,7 @@ const StudentsPage: React.FC = () => {
   const handleBackToSemesters = useCallback(() => {
     setView('semesters');
   }, []);
-  
+
   const selectedDepartmentData = useMemo(() => {
     return departmentStats.find(dept => dept.name === selectedDepartment);
   }, [departmentStats, selectedDepartment]);
@@ -63,16 +64,18 @@ const StudentsPage: React.FC = () => {
   const renderContent = () => {
     if (loading) {
       return (
-        <div className="flex justify-center items-center h-64 text-gray-700 text-lg">
-          Loading statistics...
+        <div className="flex flex-col justify-center items-center h-64 text-slate-500">
+          <div className="w-10 h-10 border-4 border-slate-200 border-t-university-600 rounded-full animate-spin mb-4"></div>
+          <p className="font-medium">Loading academic records...</p>
         </div>
       );
     }
-  
+
     if (error) {
       return (
-        <div className="flex justify-center items-center h-64 text-red-600 text-lg">
-          Error: {error}
+        <div className="flex flex-col justify-center items-center h-64 text-red-500 bg-red-50 rounded-xl border border-red-100 p-8">
+          <p className="text-lg font-bold mb-2">Unavailable</p>
+          <p>{error}</p>
         </div>
       );
     }
@@ -103,11 +106,28 @@ const StudentsPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8 space-y-6">
-      <BulkImportControls onImportSuccess={fetchStats} />
-      
-      <div className="relative bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-        {renderContent()}
+    <div className="max-w-7xl mx-auto space-y-8 animate-fade-in-up">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-slate-200">
+        <div>
+          <div className="flex items-center gap-2 mb-2 text-university-600 font-bold uppercase tracking-wider text-xs">
+            <GraduationCap className="w-4 h-4" /> Student Management
+          </div>
+          <h1 className="text-3xl font-bold text-slate-800">Academic Records</h1>
+          <p className="text-slate-500 mt-2 max-w-2xl">
+            Browse students by department, view detailed rosters, and manage student data.
+          </p>
+        </div>
+
+        {/* Bulk Upload is now integrated cleanly next to title if needed, or kept in body */}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="lg:col-span-4 space-y-6">
+          <BulkImportControls onImportSuccess={fetchStats} />
+          <div className="bg-white p-1 rounded-2xl border border-slate-200 shadow-sm min-h-[400px]">
+            {renderContent()}
+          </div>
+        </div>
       </div>
     </div>
   );

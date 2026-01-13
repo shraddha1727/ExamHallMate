@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@plugin "tailwindcss-animate";
+
 
 @theme {
     --font-sans: "Inter", "system-ui", "sans-serif";

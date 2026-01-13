@@ -34,16 +34,16 @@ const Navbar: React.FC = () => {
   const navItems = role === 'Teacher' ? teacherItems : adminItems;
 
   return (
-    <aside className="w-64 h-screen fixed left-0 top-0 flex flex-col z-50 bg-university-900 text-white border-r border-university-800 no-print shadow-xl">
+    <aside className="w-64 h-screen fixed left-0 top-0 flex flex-col z-[100] bg-slate-900 bg-university-900 text-white border-r border-university-800 no-print shadow-xl">
       {/* Brand Header - White for Logo Compliance */}
       <div className="h-20 flex items-center px-6 bg-white border-b border-slate-200">
-        <img 
-          src={VIVA_LOGO_URL} 
-          alt="VIVA Logo" 
+        <img
+          src={VIVA_LOGO_URL}
+          alt="VIVA Logo"
           className="h-12 w-auto object-contain mr-3 mix-blend-multiply drop-shadow-sm"
         />
         <div className="flex flex-col">
-          <h1 className="text-[10px] font-extrabold text-university-900 tracking-wide uppercase leading-tight">VIVA<br/>Institute</h1>
+          <h1 className="text-[10px] font-extrabold text-university-900 tracking-wide uppercase leading-tight">VIVA<br />Institute</h1>
           <p className="text-[9px] text-university-600 uppercase font-bold mt-0.5">
             {role === 'Teacher' ? 'Staff' : 'Admin'}
           </p>
@@ -59,10 +59,9 @@ const Navbar: React.FC = () => {
               <NavLink
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex items-center px-3 py-2.5 rounded text-sm font-medium transition-all duration-200 ${
-                    isActive
-                      ? 'bg-university-800 text-white shadow-inner border border-university-700'
-                      : 'text-university-200 hover:text-white hover:bg-university-800'
+                  `flex items-center px-3 py-2.5 rounded text-sm font-medium transition-all duration-200 ${isActive
+                    ? 'bg-university-800 text-white shadow-inner border border-university-700'
+                    : 'text-university-200 hover:text-white hover:bg-university-800'
                   }`
                 }
               >
@@ -85,8 +84,8 @@ const Navbar: React.FC = () => {
             <p className="text-[10px] text-university-300 truncate">{session?.email}</p>
           </div>
         </div>
-        
-        <button 
+
+        <button
           onClick={handleLogout}
           className="w-full flex items-center justify-center px-3 py-2 bg-university-900 hover:bg-university-800 text-university-200 hover:text-white border border-university-800 rounded text-xs font-bold transition-all"
         >

@@ -84,43 +84,52 @@ const TeacherDashboard: React.FC = () => {
   }, []);
 
   const StatBox = ({ label, value, icon: Icon, colorClass }: any) => (
-    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden group hover:shadow-md transition-all">
-      <div className={`absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity ${colorClass}`}>
-        <Icon className="w-16 h-16" />
+    <div className="bg-white/60 backdrop-blur-xl p-6 rounded-2xl border border-white/40 shadow-xl shadow-slate-200/50 relative overflow-hidden group hover:shadow-2xl hover:shadow-indigo-500/10 hover:-translate-y-1 transition-all duration-300">
+      <div className={`absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:scale-110 duration-500 ${colorClass}`}>
+        <Icon className="w-20 h-20" />
       </div>
       <div className="relative z-10">
-        <div className={`p-2 rounded-lg inline-block active-scale mb-3 ${colorClass.replace('text-', 'bg-').replace('500', '100').replace('600', '100')} ${colorClass}`}>
+        <div className={`p-3 rounded-xl inline-block active-scale mb-4 backdrop-blur-md shadow-sm border border-white/20 ${colorClass.replace('text-', 'bg-').replace('500', '500/10').replace('600', '600/10')} ${colorClass}`}>
           <Icon className="w-6 h-6" />
         </div>
-        <div className="text-4xl font-extrabold text-slate-800 tracking-tight">{value}</div>
-        <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">{label}</div>
+        <div className="text-5xl font-extrabold text-slate-800 tracking-tight mb-1">{value}</div>
+        <div className="text-xs font-bold text-slate-500 uppercase tracking-widest">{label}</div>
       </div>
     </div>
   );
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 animate-fade-in-up">
+    <div className="max-w-7xl mx-auto space-y-8 animate-fade-in-up pb-10">
+
       {/* Search/Header Bar */}
-      <div className="bg-white p-1 rounded-2xl border border-slate-200 shadow-sm overflow-hidden mb-6">
-        <div className="bg-gradient-to-r from-university-900 via-university-800 to-university-900 p-8 text-white relative">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-16 -mt-16 blur-2xl"></div>
-          <div className="relative z-10">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-              <div>
-                <div className="flex items-center gap-2 mb-3 text-university-200 font-bold uppercase tracking-wider text-xs">
-                  <ShieldCheck className="w-4 h-4" /> Faculty Portal
-                </div>
-                <h1 className="text-3xl md:text-4xl font-bold mb-2">Welcome back, {userName}</h1>
-                <p className="text-university-200 max-w-xl text-lg">
-                  Here is your examination schedule and duty roster for today.
-                </p>
+      <div className="relative bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-[2rem] p-8 text-white overflow-hidden shadow-2xl shadow-slate-900/20">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-500/20 rounded-full -mr-32 -mt-32 blur-3xl animate-pulse-slow"></div>
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-600/10 rounded-full -ml-20 -mb-20 blur-2xl animate-float"></div>
+
+        <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-8">
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <span className="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] font-bold tracking-widest uppercase border border-white/10 text-indigo-200 flex items-center gap-2">
+                <ShieldCheck className="w-3 h-3" /> Faculty Portal
+              </span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight leading-tight">
+              Welcome back, <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-200 to-white">{userName}</span>
+            </h1>
+            <p className="text-indigo-200/80 max-w-xl text-lg font-medium leading-relaxed">
+              Your command center for examination duties and schedules.
+            </p>
+          </div>
+          <div className="text-right">
+            <div className="inline-block bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-5 shadow-xl min-w-[200px]">
+              <div className="text-[10px] text-indigo-300 font-bold uppercase tracking-widest mb-1.5 flex items-center justify-end gap-2">
+                <Clock className="w-3 h-3" /> Today's Session
               </div>
-              <div className="text-right">
-                <div className="inline-block bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-4">
-                  <div className="text-xs text-university-200 font-bold uppercase tracking-wider mb-1">Current Session</div>
-                  <div className="text-xl font-bold">{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
-                </div>
+              <div className="text-xl font-bold text-white">
+                {new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
               </div>
+              <div className="text-xs text-indigo-200 mt-1 font-medium">Academic Year 2025-26</div>
             </div>
           </div>
         </div>
@@ -135,60 +144,64 @@ const TeacherDashboard: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
           <section>
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-indigo-50 rounded-lg">
+                <Calendar className="w-5 h-5 text-indigo-600" />
+              </div>
               <h2 className="text-xl font-bold text-slate-800">Upcoming Schedule</h2>
-              <div className="h-px bg-slate-200 flex-grow ml-4"></div>
             </div>
 
             {upcomingDuties.length === 0 ? (
-              <div className="bg-white p-12 rounded-2xl border border-slate-200 text-center shadow-sm">
-                <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="bg-white/60 backdrop-blur-xl p-12 rounded-[2rem] border border-white/40 text-center shadow-sm">
+                <div className="w-20 h-20 bg-slate-50/50 rounded-full flex items-center justify-center mx-auto mb-4 animate-float border border-white/50 shadow-inner">
                   <Calendar className="w-8 h-8 text-slate-300" />
                 </div>
                 <h3 className="text-lg font-bold text-slate-700">No Upcoming Duties</h3>
-                <p className="text-slate-500 mt-1">You currently have no invigilation duties assigned.</p>
+                <p className="text-slate-500 mt-2 font-medium">You currently have no invigilation duties assigned.</p>
               </div>
             ) : (
-              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+              <div className="bg-white/60 backdrop-blur-xl rounded-[2rem] shadow-xl shadow-slate-200/50 border border-white/40 overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
-                    <thead className="bg-slate-50 border-b border-slate-200">
+                    <thead className="bg-white/40 border-b border-indigo-100/50">
                       <tr>
-                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Date & Time</th>
-                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Subject</th>
-                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Location</th>
-                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Role</th>
+                        <th className="px-8 py-5 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Date & Time</th>
+                        <th className="px-6 py-5 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Subject</th>
+                        <th className="px-6 py-5 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Location</th>
+                        <th className="px-6 py-5 text-[10px] font-bold text-slate-500 uppercase tracking-widest">Role</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100">
+                    <tbody className="divide-y divide-indigo-50/50">
                       {upcomingDuties.map(duty => (
-                        <tr key={duty.id} className="hover:bg-slate-50/80 transition-colors group">
-                          <td className="px-6 py-4 whitespace-nowrap">
+                        <tr key={duty.id} className="hover:bg-white/40 transition-colors group">
+                          <td className="px-8 py-5 whitespace-nowrap">
                             <div className="flex flex-col">
-                              <div className="flex items-center font-bold text-slate-700">
+                              <div className="flex items-center font-bold text-slate-700 text-sm">
                                 <Calendar className="w-3.5 h-3.5 mr-2 text-slate-400 group-hover:text-university-600 transition-colors" />
-                                {duty.exam.examDate}
+                                {new Date(duty.exam.examDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                               </div>
-                              <div className="flex items-center text-xs text-slate-500 mt-1">
-                                <Clock className="w-3.5 h-3.5 mr-2 text-slate-400" />
+                              <div className="flex items-center text-xs text-slate-500 mt-1 font-medium bg-slate-100/50 px-2 py-0.5 rounded-md w-fit">
+                                <Clock className="w-3 h-3 mr-1.5 text-slate-400" />
                                 {duty.exam.startTime} - {duty.exam.endTime}
                               </div>
                             </div>
                           </td>
-                          <td className="px-6 py-4">
+                          <td className="px-6 py-5">
                             <div>
-                              <div className="font-bold text-slate-800">{duty.exam.subjectCode}</div>
-                              <div className="text-xs text-slate-500 font-medium">{duty.exam.subjectName}</div>
+                              <div className="font-bold text-slate-800 text-sm">{duty.exam.subjectCode}</div>
+                              <div className="text-xs text-slate-500 font-medium mt-0.5">{duty.exam.subjectName}</div>
                             </div>
                           </td>
-                          <td className="px-6 py-4">
+                          <td className="px-6 py-5">
                             <div className="flex items-center text-sm font-bold text-slate-700">
-                              <MapPin className="w-4 h-4 mr-2 text-slate-400" />
+                              <div className="p-1.5 bg-indigo-50 rounded-md mr-2 text-indigo-600">
+                                <MapPin className="w-3.5 h-3.5" />
+                              </div>
                               Room {duty.room.roomNumber}
                             </div>
                           </td>
-                          <td className="px-6 py-4">
-                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border ${duty.dutyType === 'Supervisor' ? 'bg-purple-50 text-purple-700 border-purple-100' : 'bg-slate-50 text-slate-600 border-slate-200'}`}>
+                          <td className="px-6 py-5">
+                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border ${duty.dutyType === 'Supervisor' ? 'bg-purple-50/50 text-purple-700 border-purple-100' : 'bg-slate-50/50 text-slate-600 border-slate-200'}`}>
                               {duty.dutyType === 'Supervisor' && <ShieldCheck className="w-3 h-3 mr-1" />}
                               {duty.dutyType}
                             </span>
@@ -205,36 +218,39 @@ const TeacherDashboard: React.FC = () => {
 
         <div className="lg:col-span-1 space-y-6">
           <div>
-            <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-              <Clock className="w-5 h-5 text-university-600" /> Today's Agenda
-            </h2>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-amber-50 rounded-lg">
+                <Clock className="w-5 h-5 text-amber-600" />
+              </div>
+              <h2 className="text-xl font-bold text-slate-800">Today's Agenda</h2>
+            </div>
 
             {todaysDuties.length === 0 ? (
-              <div className="bg-white p-8 rounded-2xl border border-dashed border-slate-300 text-center">
+              <div className="bg-white/60 backdrop-blur-xl p-8 rounded-[2rem] border border-dashed border-slate-300 text-center shadow-lg shadow-slate-200/20">
                 <p className="text-slate-500 font-medium text-sm">No duties scheduled for today.</p>
-                <p className="text-xs text-slate-400 mt-1">Enjoy your day!</p>
+                <p className="text-xs text-slate-400 mt-1 font-medium">Enjoy your day!</p>
               </div>
             ) : (
               <div className="space-y-4">
                 {todaysDuties.map(duty => (
-                  <div key={duty.id} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-university-600"></div>
-                    <div className="mb-3 flex justify-between items-start">
-                      <span className={`text-[10px] font-bold uppercase px-2 py-1 rounded bg-university-50 text-university-700`}>
+                  <div key={duty.id} className="bg-white/80 backdrop-blur-xl p-6 rounded-[2rem] border border-white/40 shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-300 relative overflow-hidden group">
+                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-university-500 to-indigo-600"></div>
+                    <div className="mb-4 flex justify-between items-center">
+                      <span className={`text-[9px] font-extrabold uppercase px-2 py-1 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-100`}>
                         {duty.dutyType}
                       </span>
-                      <span className="text-xs font-bold text-slate-400 flex items-center">
-                        <Clock className="w-3 h-3 mr-1" /> {duty.time}
+                      <span className="text-xs font-bold text-slate-500 flex items-center bg-slate-100 px-2 py-1 rounded-md">
+                        <Clock className="w-3 h-3 mr-1.5" /> {duty.time}
                       </span>
                     </div>
-                    <h3 className="font-bold text-slate-800 mb-1">{duty.examName}</h3>
-                    <div className="flex items-center text-sm text-slate-600 mb-4">
-                      <MapPin className="w-3.5 h-3.5 mr-1.5 text-slate-400" />
-                      <span className="font-bold">Room {duty.roomNumber}</span>
+                    <h3 className="font-bold text-slate-800 text-lg mb-2 group-hover:text-university-700 transition-colors">{duty.examName}</h3>
+                    <div className="flex items-center text-sm text-slate-600 mb-6 font-medium">
+                      <MapPin className="w-4 h-4 mr-2 text-indigo-500" />
+                      <span>Room {duty.roomNumber}</span>
                     </div>
 
-                    <Link to="/staff/my-rooms" className="w-full flex items-center justify-center py-2 rounded-lg bg-slate-50 text-slate-700 font-bold text-xs hover:bg-slate-100 transition-colors border border-slate-100">
-                      Start Session <ArrowRight className="w-3 h-3 ml-2" />
+                    <Link to="/staff/my-rooms" className="w-full flex items-center justify-center py-3.5 rounded-xl bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 text-white font-bold text-xs transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                      Enter Exam Hall <ArrowRight className="w-3.5 h-3.5 ml-2" />
                     </Link>
                   </div>
                 ))}
@@ -246,5 +262,6 @@ const TeacherDashboard: React.FC = () => {
     </div>
   );
 };
+
 
 export default TeacherDashboard;

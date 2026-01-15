@@ -65,17 +65,20 @@ const StudentsPage: React.FC = () => {
     if (loading) {
       return (
         <div className="flex flex-col justify-center items-center h-64 text-slate-500">
-          <div className="w-10 h-10 border-4 border-slate-200 border-t-university-600 rounded-full animate-spin mb-4"></div>
-          <p className="font-medium">Loading academic records...</p>
+          <div className="relative w-16 h-16 mb-4">
+            <div className="absolute inset-0 border-4 border-slate-200 rounded-full"></div>
+            <div className="absolute inset-0 border-4 border-t-indigo-600 border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin"></div>
+          </div>
+          <p className="font-bold text-slate-400 uppercase tracking-widest text-xs">Loading academic records...</p>
         </div>
       );
     }
 
     if (error) {
       return (
-        <div className="flex flex-col justify-center items-center h-64 text-red-500 bg-red-50 rounded-xl border border-red-100 p-8">
-          <p className="text-lg font-bold mb-2">Unavailable</p>
-          <p>{error}</p>
+        <div className="flex flex-col justify-center items-center h-64 text-red-400 bg-red-50/50 rounded-[2rem] border border-red-100 p-8 text-center backdrop-blur-sm">
+          <p className="text-xl font-bold mb-2">System Unavailable</p>
+          <p className="text-sm font-medium opacity-80">{error}</p>
         </div>
       );
     }
@@ -106,26 +109,36 @@ const StudentsPage: React.FC = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 animate-fade-in-up">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-slate-200">
-        <div>
-          <div className="flex items-center gap-2 mb-2 text-university-600 font-bold uppercase tracking-wider text-xs">
-            <GraduationCap className="w-4 h-4" /> Student Management
+    <div className="max-w-7xl mx-auto space-y-8 animate-fade-in-up pb-12">
+
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-slate-200 relative">
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2 bg-indigo-50 rounded-lg backdrop-blur-md border border-indigo-200">
+              <GraduationCap className="w-5 h-5 text-indigo-600" />
+            </div>
+            <span className="text-indigo-600 font-bold uppercase tracking-widest text-xs">Student Management</span>
           </div>
-          <h1 className="text-3xl font-bold text-slate-800">Academic Records</h1>
-          <p className="text-slate-500 mt-2 max-w-2xl">
+          <h1 className="text-4xl font-extrabold text-slate-800 tracking-tight">Academic Records</h1>
+          <p className="text-slate-500 mt-2 max-w-2xl text-lg font-medium">
             Browse students by department, view detailed rosters, and manage student data.
           </p>
         </div>
-
-        {/* Bulk Upload is now integrated cleanly next to title if needed, or kept in body */}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <div className="lg:col-span-4 space-y-6">
+      <div className="grid grid-cols-1 gap-8">
+        <div className="space-y-8">
           <BulkImportControls onImportSuccess={fetchStats} />
-          <div className="bg-white p-1 rounded-2xl border border-slate-200 shadow-sm min-h-[400px]">
-            {renderContent()}
+
+          <div className="bg-white/60 backdrop-blur-xl p-2 rounded-[2.5rem] border border-white/40 shadow-2xl shadow-slate-900/10 min-h-[500px] relative overflow-hidden">
+            {/* Inner background accents */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/5 rounded-full filter blur-3xl pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 rounded-full filter blur-3xl pointer-events-none"></div>
+
+            <div className="relative z-10 p-6">
+              {renderContent()}
+            </div>
           </div>
         </div>
       </div>

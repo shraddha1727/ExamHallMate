@@ -53,11 +53,13 @@ const BulkImportControls: React.FC<BulkImportControlsProps> = ({ onImportSuccess
   };
 
   return (
-    <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-      <div className="flex items-center justify-between">
+    <div className="bg-white/60 backdrop-blur-xl p-6 rounded-[2rem] border border-white/40 shadow-xl shadow-slate-900/5 group hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
+
+      <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <h3 className="text-lg font-bold text-slate-800">Student Data Management</h3>
-          <p className="text-sm text-slate-500 mt-1">Import, view, and manage student records.</p>
+          <h3 className="text-xl font-extrabold text-slate-800 tracking-tight">Student Data Management</h3>
+          <p className="text-sm font-medium text-slate-500 mt-1">Import, view, and manage student records via CSV.</p>
         </div>
         <div className="flex items-center space-x-4">
           <input

@@ -21,7 +21,7 @@ import { isAuthenticated, getSession } from './services/auth';
 // Layout component to wrap authenticated routes with Navbar
 const AppLayout: React.FC = () => {
   return (
-    <div className="flex bg-slate-50 min-h-screen font-sans">
+    <div className="flex min-h-screen font-sans">
       <Navbar />
       {/* 
          Fix for Printing: 

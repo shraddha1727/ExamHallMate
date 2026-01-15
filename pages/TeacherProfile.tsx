@@ -29,35 +29,41 @@ const TeacherProfile: React.FC = () => {
 
   if (!teacher) return (
     <div className="flex items-center justify-center min-h-[400px]">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-university-600"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
     </div>
   );
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6 animate-fade-in-up">
-      <div className="relative bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+    <div className="max-w-4xl mx-auto space-y-6 animate-fade-in-up pb-12">
+      <div className="relative bg-white/60 backdrop-blur-xl rounded-[2.5rem] shadow-2xl shadow-slate-900/10 border border-white/40 overflow-hidden">
         {/* Banner */}
-        <div className="h-48 bg-gradient-to-r from-university-900 to-university-700 relative">
-          <div className="absolute inset-0 bg-pattern opacity-10"></div>
-          <div className="absolute -bottom-16 left-8 p-1 bg-white rounded-2xl shadow-sm">
-            <div className="w-32 h-32 bg-slate-100 rounded-xl flex items-center justify-center text-4xl font-bold text-university-700 shadow-inner">
+        <div className="h-64 bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-900 relative overflow-hidden">
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl -ml-10 -mb-10 pointer-events-none"></div>
+
+          <div className="absolute -bottom-20 left-12 p-3 bg-white/20 backdrop-blur-xl rounded-[2rem] border border-white/30 shadow-2xl z-10">
+            <div className="w-40 h-40 bg-gradient-to-br from-white to-slate-100 rounded-[1.5rem] flex items-center justify-center text-6xl font-extrabold text-indigo-900 shadow-inner">
               {teacher.name.charAt(0)}
             </div>
           </div>
         </div>
 
-        <div className="pt-20 px-8 pb-8">
-          <div className="flex justify-between items-start">
+        <div className="pt-24 px-12 pb-12">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-6">
             <div>
-              <h1 className="text-3xl font-extrabold text-slate-900">{teacher.name}</h1>
-              <p className="text-lg text-slate-500 font-medium flex items-center gap-2">
-                Faculty Member <span className="w-1 h-1 rounded-full bg-slate-300"></span> {teacher.id}
-              </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <span className="px-3 py-1 bg-university-50 text-university-700 rounded-full text-xs font-bold uppercase border border-university-100 flex items-center gap-1">
-                  <ShieldCheck className="w-3 h-3" /> Authenticated
+              <h1 className="text-4xl font-extrabold text-slate-800 tracking-tight">{teacher.name}</h1>
+              <div className="flex items-center gap-3 mt-2">
+                <p className="text-lg text-slate-500 font-bold">Faculty Member</p>
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                <p className="text-lg text-indigo-600 font-mono font-medium">{teacher.id}</p>
+              </div>
+
+              <div className="mt-6 flex flex-wrap gap-2">
+                <span className="px-4 py-1.5 bg-indigo-50 text-indigo-700 rounded-full text-xs font-bold uppercase border border-indigo-100 flex items-center gap-1.5 shadow-sm tracking-wide">
+                  <ShieldCheck className="w-3.5 h-3.5" /> Authenticated
                 </span>
-                <span className="px-3 py-1 bg-slate-50 text-slate-600 rounded-full text-xs font-bold uppercase border border-slate-200">
+                <span className="px-4 py-1.5 bg-emerald-50 text-emerald-700 rounded-full text-xs font-bold uppercase border border-emerald-100 shadow-sm tracking-wide">
                   Active Status
                 </span>
               </div>
@@ -65,62 +71,62 @@ const TeacherProfile: React.FC = () => {
 
             <button
               onClick={handleLogout}
-              className="px-5 py-2.5 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 rounded-xl font-bold text-sm transition-all flex items-center gap-2 border border-transparent hover:border-red-200"
+              className="px-6 py-3 bg-red-50 text-red-600 hover:bg-red-500 hover:text-white rounded-xl font-bold text-sm transition-all flex items-center gap-2 border border-red-100 shadow-sm hover:shadow-red-500/20"
             >
               <LogOut className="w-4 h-4" /> Sign Out
             </button>
           </div>
 
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-5 bg-slate-50 rounded-xl border border-slate-100 hover:border-university-200 transition-colors group">
-              <div className="flex items-center gap-4 mb-2">
-                <div className="p-2 bg-white rounded-lg text-university-600 shadow-sm group-hover:scale-110 transition-transform">
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+            <div className="p-6 bg-white/50 rounded-[1.5rem] border border-white/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all group">
+              <div className="flex items-center gap-4 mb-3">
+                <div className="p-2.5 bg-white rounded-xl text-indigo-600 shadow-sm border border-indigo-50 group-hover:scale-110 transition-transform">
                   <Briefcase className="w-5 h-5" />
                 </div>
-                <span className="text-xs font-bold uppercase text-slate-400 tracking-wider">Department</span>
+                <span className="text-xs font-extrabold uppercase text-slate-400 tracking-widest">Department</span>
               </div>
-              <div className="pl-14">
-                <p className="text-lg font-bold text-slate-800">{teacher.department}</p>
-                <p className="text-xs text-slate-500">Academic Division</p>
+              <div className="pl-16">
+                <p className="text-xl font-bold text-slate-800">{teacher.department}</p>
+                <p className="text-sm font-medium text-slate-400">Academic Division</p>
               </div>
             </div>
 
-            <div className="p-5 bg-slate-50 rounded-xl border border-slate-100 hover:border-university-200 transition-colors group">
-              <div className="flex items-center gap-4 mb-2">
-                <div className="p-2 bg-white rounded-lg text-university-600 shadow-sm group-hover:scale-110 transition-transform">
+            <div className="p-6 bg-white/50 rounded-[1.5rem] border border-white/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all group">
+              <div className="flex items-center gap-4 mb-3">
+                <div className="p-2.5 bg-white rounded-xl text-indigo-600 shadow-sm border border-indigo-50 group-hover:scale-110 transition-transform">
                   <Mail className="w-5 h-5" />
                 </div>
-                <span className="text-xs font-bold uppercase text-slate-400 tracking-wider">Email Address</span>
+                <span className="text-xs font-extrabold uppercase text-slate-400 tracking-widest">Email Address</span>
               </div>
-              <div className="pl-14">
-                <p className="text-lg font-bold text-slate-800 break-all">{teacher.email}</p>
-                <p className="text-xs text-slate-500">Official Communication</p>
+              <div className="pl-16">
+                <p className="text-xl font-bold text-slate-800 break-all">{teacher.email}</p>
+                <p className="text-sm font-medium text-slate-400">Official Communication</p>
               </div>
             </div>
 
-            <div className="p-5 bg-slate-50 rounded-xl border border-slate-100 hover:border-university-200 transition-colors group">
-              <div className="flex items-center gap-4 mb-2">
-                <div className="p-2 bg-white rounded-lg text-university-600 shadow-sm group-hover:scale-110 transition-transform">
+            <div className="p-6 bg-white/50 rounded-[1.5rem] border border-white/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all group">
+              <div className="flex items-center gap-4 mb-3">
+                <div className="p-2.5 bg-white rounded-xl text-indigo-600 shadow-sm border border-indigo-50 group-hover:scale-110 transition-transform">
                   <Phone className="w-5 h-5" />
                 </div>
-                <span className="text-xs font-bold uppercase text-slate-400 tracking-wider">Contact Number</span>
+                <span className="text-xs font-extrabold uppercase text-slate-400 tracking-widest">Contact Number</span>
               </div>
-              <div className="pl-14">
-                <p className="text-lg font-bold text-slate-800">{teacher.phone || 'Not Provided'}</p>
-                <p className="text-xs text-slate-500">Emergency Contact</p>
+              <div className="pl-16">
+                <p className="text-xl font-bold text-slate-800">{teacher.phone || 'Not Provided'}</p>
+                <p className="text-sm font-medium text-slate-400">Emergency Contact</p>
               </div>
             </div>
 
-            <div className="p-5 bg-slate-50 rounded-xl border border-slate-100 hover:border-university-200 transition-colors group">
-              <div className="flex items-center gap-4 mb-2">
-                <div className="p-2 bg-white rounded-lg text-university-600 shadow-sm group-hover:scale-110 transition-transform">
+            <div className="p-6 bg-white/50 rounded-[1.5rem] border border-white/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all group">
+              <div className="flex items-center gap-4 mb-3">
+                <div className="p-2.5 bg-white rounded-xl text-indigo-600 shadow-sm border border-indigo-50 group-hover:scale-110 transition-transform">
                   <User className="w-5 h-5" />
                 </div>
-                <span className="text-xs font-bold uppercase text-slate-400 tracking-wider">User ID</span>
+                <span className="text-xs font-extrabold uppercase text-slate-400 tracking-widest">User ID</span>
               </div>
-              <div className="pl-14">
-                <p className="text-lg font-bold text-slate-800">{teacher.id}</p>
-                <p className="text-xs text-slate-500">System Identification</p>
+              <div className="pl-16">
+                <p className="text-xl font-bold text-slate-800">{teacher.id}</p>
+                <p className="text-sm font-medium text-slate-400">System Identification</p>
               </div>
             </div>
           </div>

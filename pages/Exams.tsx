@@ -134,22 +134,22 @@ const Exams: React.FC = () => {
               <tbody className="divide-y divide-white/20">
                 {exams.sort((a, b) => a.examDate.localeCompare(b.examDate)).map((exam) => (
                   <tr key={exam.id} className="hover:bg-white/50 transition-colors group">
-                    <td className="px-8 py-6">
+                    <td className="px-4 py-4 md:px-8 md:py-6">
                       <div className="flex flex-col">
-                        <span className="font-bold text-slate-800 text-base">{new Date(exam.examDate).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
-                        <span className="text-xs text-slate-500 mt-1 flex items-center font-medium">
+                        <span className="font-bold text-slate-800 text-sm md:text-base">{new Date(exam.examDate).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
+                        <span className="text-[10px] md:text-xs text-slate-500 mt-1 flex items-center font-medium whitespace-nowrap">
                           <Clock className="w-3 h-3 mr-1.5 text-indigo-500" /> {exam.startTime} - {exam.endTime}
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-6">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-50 to-blue-50 border border-white/50 shadow-sm flex items-center justify-center text-indigo-700 font-bold text-sm shrink-0 group-hover:scale-105 transition-transform">
+                    <td className="px-4 py-4 md:px-6 md:py-6">
+                      <div className="flex items-center gap-3 md:gap-4">
+                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gradient-to-br from-indigo-50 to-blue-50 border border-white/50 shadow-sm flex items-center justify-center text-indigo-700 font-bold text-xs md:text-sm shrink-0 group-hover:scale-105 transition-transform">
                           {exam.subjectCode.substring(0, 2)}
                         </div>
                         <div>
-                          <div className="text-sm font-bold text-slate-900">{exam.subjectName}</div>
-                          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1 bg-slate-100/50 px-1.5 py-0.5 rounded w-fit">
+                          <div className="text-sm font-bold text-slate-900 line-clamp-2 md:line-clamp-none leading-tight">{exam.subjectName}</div>
+                          <div className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1 bg-slate-100/50 px-1.5 py-0.5 rounded w-fit">
                             {exam.subjectCode}
                           </div>
                         </div>

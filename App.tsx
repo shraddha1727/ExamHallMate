@@ -27,8 +27,9 @@ const AppLayout: React.FC = () => {
          Fix for Printing: 
          Added print:ml-0 print:p-0 print:h-auto print:overflow-visible print:w-full 
          to ensure content expands correctly on paper.
+         Mobile: Remove left margin, reduce padding.
       */}
-      <main className="flex-1 ml-64 p-8 overflow-y-auto h-screen print:ml-0 print:p-0 print:h-auto print:overflow-visible print:w-full transition-all duration-300">
+      <main className="flex-1 md:ml-64 ml-0 p-4 md:p-8 overflow-y-auto h-screen print:ml-0 print:p-0 print:h-auto print:overflow-visible print:w-full transition-all duration-300">
         <Outlet />
       </main>
     </div>

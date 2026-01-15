@@ -122,7 +122,7 @@ const Exams: React.FC = () => {
       ) : (
         <div className="bg-white/60 backdrop-blur-xl border border-white/40 rounded-[2rem] shadow-2xl shadow-slate-900/10 overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
+            <table className="w-full text-left min-w-[700px]">
               <thead className="bg-white/40 border-b border-white/20">
                 <tr>
                   <th className="px-8 py-6 text-[10px] font-extrabold text-slate-500 uppercase tracking-widest">Date & Time</th>

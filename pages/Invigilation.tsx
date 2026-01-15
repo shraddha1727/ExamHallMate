@@ -290,7 +290,7 @@ const InvigilationPage: React.FC = () => {
           </div>
         ) : (
           <div className="overflow-x-auto relative z-10">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-left border-collapse min-w-[800px]">
               <thead className="bg-white/30 border-b border-white/20">
                 <tr>
                   <th className="px-8 py-5 text-xs font-extrabold text-slate-500 uppercase tracking-widest text-left pl-10">Faculty Details</th>

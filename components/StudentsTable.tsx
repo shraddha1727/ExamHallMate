@@ -37,7 +37,7 @@ const StudentsTable: React.FC<StudentsTableProps> = ({ onBack, selectedDepartmen
   useEffect(() => {
     const fetchStudents = async () => {
       if (!selectedDepartment || !selectedSemester) return;
-      
+
       setLoading(true);
       setError(null);
       try {
@@ -87,39 +87,48 @@ const StudentsTable: React.FC<StudentsTableProps> = ({ onBack, selectedDepartmen
         <span className="text-gray-600 hidden md:inline">Total Records: {totalRecords}</span>
       </div>
 
-      <div className="overflow-x-auto bg-white rounded-lg shadow-sm border border-gray-200">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-university-900">
+      <div className="overflow-x-auto bg-white/60 backdrop-blur-xl rounded-[2rem] shadow-2xl shadow-slate-900/10 border border-white/40">
+        <table className="min-w-[800px] w-full text-left">
+          <thead className="bg-slate-50/80 border-b border-slate-200/60">
             <tr>
               {['Enrollment No.', 'Name', 'Branch', 'Semester', 'Batch'].map(header => (
-                <th key={header} scope="col" className="px-6 py-3 text-left text-xs font-bold text-white uppercase tracking-wider">
+                <th key={header} scope="col" className="px-8 py-5 text-left text-[10px] font-extrabold text-slate-500 uppercase tracking-widest">
                   {header}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="divide-y divide-slate-100">
             {loading ? (
               <tr>
-                <td colSpan={5} className="px-6 py-12 text-center text-gray-500">Loading...</td>
+                <td colSpan={5} className="px-6 py-24 text-center text-slate-400">
+                  <div className="flex flex-col items-center animate-pulse">
+                    <div className="w-12 h-12 bg-slate-200 rounded-full mb-3"></div>
+                    <div className="h-4 w-32 bg-slate-200 rounded"></div>
+                  </div>
+                </td>
               </tr>
             ) : error ? (
               <tr>
-                <td colSpan={5} className="px-6 py-12 text-center text-red-500">{error}</td>
+                <td colSpan={5} className="px-6 py-12 text-center text-red-500 font-bold">{error}</td>
               </tr>
             ) : students.length > 0 ? (
               students.map((student) => (
-                <tr key={student.enrollNo} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{student.enrollNo}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{student.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{student.branch}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{student.semester}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{student.batch}</td>
+                <tr key={student.enrollNo} className="hover:bg-indigo-50/40 transition-colors duration-200 group">
+                  <td className="px-8 py-5 whitespace-nowrap text-sm font-bold text-slate-700 font-mono bg-slate-50/50 rounded-r-xl group-hover:bg-transparent">{student.enrollNo}</td>
+                  <td className="px-8 py-5 whitespace-nowrap text-sm font-bold text-slate-800">{student.name}</td>
+                  <td className="px-8 py-5 whitespace-nowrap text-sm font-medium text-slate-600">
+                    <span className="px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-500 shadow-sm">{student.branch}</span>
+                  </td>
+                  <td className="px-8 py-5 whitespace-nowrap text-sm font-medium text-slate-600">
+                    <span className="px-2 py-1 bg-indigo-50 border border-indigo-100 rounded-lg text-xs font-bold text-indigo-600">Sem {student.semester}</span>
+                  </td>
+                  <td className="px-8 py-5 whitespace-nowrap text-sm font-medium text-slate-500">{student.batch}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={5} className="px-6 py-12 text-center text-sm text-gray-500">
+                <td colSpan={5} className="px-6 py-24 text-center text-sm text-slate-500 font-medium">
                   No students found for this selection.
                 </td>
               </tr>
@@ -129,42 +138,44 @@ const StudentsTable: React.FC<StudentsTableProps> = ({ onBack, selectedDepartmen
       </div>
 
       {totalPages > 1 && (
-        <nav className="bg-white px-4 py-3 flex items-center justify-center border-t border-gray-200 sm:px-6 rounded-b-lg">
-           <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-center">
-            <div>
-              <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+        <div className="mt-6 flex justify-center">
+          <nav className="inline-flex rounded-2xl shadow-lg shadow-slate-200/50 bg-white p-1.5 gap-1 border border-slate-100">
+            <button
+              onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+              disabled={currentPage === 1 || loading}
+              className="p-2.5 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 disabled:opacity-30 disabled:hover:bg-transparent transition-all"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            {[...Array(totalPages)].map((_, index) => {
+              // Simple pagination logic to show limited pages if too many
+              if (totalPages > 7 && Math.abs(currentPage - (index + 1)) > 2 && index !== 0 && index !== totalPages - 1) {
+                if (index === 1 || index === totalPages - 2) return <span key={index} className="px-2 py-2 text-slate-300">...</span>;
+                return null;
+              }
+              return (
                 <button
-                  onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
-                  disabled={currentPage === 1 || loading}
-                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                </button>
-                {[...Array(totalPages)].map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentPage(index + 1)}
-                    disabled={loading}
-                    className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                      currentPage === index + 1
-                        ? 'z-10 bg-university-800 border-university-800 text-white'
-                        : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                  key={index}
+                  onClick={() => setCurrentPage(index + 1)}
+                  disabled={loading}
+                  className={`w-10 h-10 rounded-xl text-sm font-bold transition-all ${currentPage === index + 1
+                      ? 'bg-gradient-to-br from-university-600 to-indigo-600 text-white shadow-md shadow-indigo-500/30'
+                      : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
                     }`}
-                  >
-                    {index + 1}
-                  </button>
-                ))}
-                <button
-                  onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
-                  disabled={currentPage === totalPages || loading}
-                  className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
                 >
-                  <ChevronRight className="h-5 w-5" />
+                  {index + 1}
                 </button>
-              </nav>
-            </div>
-          </div>
-        </nav>
+              );
+            })}
+            <button
+              onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+              disabled={currentPage === totalPages || loading}
+              className="p-2.5 rounded-xl text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 disabled:opacity-30 disabled:hover:bg-transparent transition-all"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </nav>
+        </div>
       )}
     </div>
   );

@@ -1,3 +1,4 @@
+import { API_BASE_URL } from './config';
 import { UserRole } from '../types';
 
 export interface UserSession {
@@ -16,7 +17,7 @@ const KEYS = {
 
 export const login = async (email: string, password: string): Promise<{ success: boolean; user?: UserSession; error?: string }> => {
   try {
-    const res = await fetch('/api/auth/login', {
+    const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

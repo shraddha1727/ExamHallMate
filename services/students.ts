@@ -1,17 +1,19 @@
 import { Student } from '../types';
 import { getSession } from './auth';
 
-const API_BASE = '';
+import { API_BASE_URL } from './config';
+
+const API_BASE = API_BASE_URL;
 
 const getHeaders = () => {
   const session = getSession();
   const headers: HeadersInit = { 'Content-Type': 'application/json' };
-  
+
   if (session) {
     headers['x-user-id'] = session.id;
     headers['x-user-role'] = session.role;
   }
-  
+
   return headers;
 };
 
@@ -45,9 +47,9 @@ export const fetchStudentsAllApi = async (): Promise<Student[]> => {
 };
 
 export const fetchPaginatedStudentsApi = async (
-  branch: string, 
-  semester: string, 
-  page: number, 
+  branch: string,
+  semester: string,
+  page: number,
   searchTerm: string
 ): Promise<{ students: Student[], totalPages: number, totalRecords: number }> => {
   const params = new URLSearchParams({
@@ -74,7 +76,7 @@ export const bulkUpsertStudentsApi = async (students: Student[]) => {
 };
 
 export const clearStudentsApi = async () => {
-  const res = await fetch(`${API_BASE}/api/students`, { 
+  const res = await fetch(`${API_BASE}/api/students`, {
     method: 'DELETE',
     headers: getHeaders()
   });

@@ -1,17 +1,19 @@
 import { Room } from '../types';
 import { getSession } from './auth';
 
-const API_BASE = '';
+import { API_BASE_URL } from './config';
+
+const API_BASE = API_BASE_URL;
 
 const getHeaders = () => {
   const session = getSession();
   const headers: HeadersInit = { 'Content-Type': 'application/json' };
-  
+
   if (session) {
     headers['x-user-id'] = session.id;
     headers['x-user-role'] = session.role;
   }
-  
+
   return headers;
 };
 
@@ -47,7 +49,7 @@ export const saveRoomApi = async (room: Room) => {
 };
 
 export const deleteRoomApi = async (id: string) => {
-  const res = await fetch(`${API_BASE}/api/rooms/${id}`, { 
+  const res = await fetch(`${API_BASE}/api/rooms/${id}`, {
     method: 'DELETE',
     headers: getHeaders()
   });

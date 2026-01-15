@@ -44,3 +44,5 @@ chatbot/chatbot-gemini-wp/dist
 *.njsproj
 *.sln
 *.sw?
+
+.vercel

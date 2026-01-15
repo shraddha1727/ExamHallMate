@@ -60,8 +60,8 @@ const Dashboard: React.FC = () => {
       </div>
 
       <div className="relative z-10">
-        <h3 className="text-4xl font-extrabold text-slate-800 mb-1">{value}</h3>
-        <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">{title}</p>
+        <h3 className="text-2xl md:text-4xl font-extrabold text-slate-800 mb-1">{value}</h3>
+        <p className="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest">{title}</p>
       </div>
     </div>
   );
@@ -85,20 +85,20 @@ const Dashboard: React.FC = () => {
                 <ShieldCheck className="w-3 h-3" /> Admin Portal
               </span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight leading-tight">
+            <h1 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight leading-tight">
               Welcome back, <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-200 to-white">{session?.name || 'Administrator'}</span>
             </h1>
-            <p className="text-indigo-100 text-lg leading-relaxed font-medium">
+            <p className="text-indigo-100 text-sm md:text-lg leading-relaxed font-medium">
               You have <strong className="text-white bg-white/10 px-2 rounded-md">{stats.exams} upcoming exams</strong> managed by the system.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-            <Link to="/admin/seating" className="px-6 py-4 bg-white text-university-900 font-bold rounded-xl hover:bg-slate-50 hover:-translate-y-1 transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-2 group">
+            <Link to="/admin/seating" className="px-6 py-4 bg-white text-university-900 font-bold rounded-xl hover:bg-slate-50 hover:-translate-y-1 transition-all shadow-xl shadow-black/10 flex items-center justify-center gap-2 group text-sm md:text-base">
               <Grid className="w-5 h-5 group-hover:scale-110 transition-transform" />
               <span>Allocation Engine</span>
             </Link>
-            <Link to="/admin/exams" className="px-6 py-4 bg-university-800/50 backdrop-blur-md border border-white/20 text-white font-bold rounded-xl hover:bg-university-800/70 hover:-translate-y-1 transition-all flex items-center justify-center gap-2">
+            <Link to="/admin/exams" className="px-6 py-4 bg-university-800/50 backdrop-blur-md border border-white/20 text-white font-bold rounded-xl hover:bg-university-800/70 hover:-translate-y-1 transition-all flex items-center justify-center gap-2 text-sm md:text-base">
               <Calendar className="w-5 h-5" />
               <span>Schedule</span>
             </Link>

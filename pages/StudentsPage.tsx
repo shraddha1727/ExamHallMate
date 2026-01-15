@@ -118,10 +118,10 @@ const StudentsPage: React.FC = () => {
             <div className="p-2 bg-indigo-50 rounded-lg backdrop-blur-md border border-indigo-200">
               <GraduationCap className="w-5 h-5 text-indigo-600" />
             </div>
-            <span className="text-indigo-600 font-bold uppercase tracking-widest text-xs">Student Management</span>
+            <span className="text-indigo-600 font-bold uppercase tracking-widest text-[10px] md:text-xs">Student Management</span>
           </div>
-          <h1 className="text-4xl font-extrabold text-slate-800 tracking-tight">Academic Records</h1>
-          <p className="text-slate-500 mt-2 max-w-2xl text-lg font-medium">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">Academic Records</h1>
+          <p className="text-slate-500 mt-2 max-w-2xl text-sm md:text-lg font-medium">
             Browse students by department, view detailed rosters, and manage student data.
           </p>
         </div>

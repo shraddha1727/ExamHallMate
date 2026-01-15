@@ -130,7 +130,7 @@ const Dashboard: React.FC = () => {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
+            <table className="w-full text-left min-w-[600px]">
               <thead className="bg-slate-50/80 border-b border-slate-200/50">
                 <tr>
                   <th className="px-8 py-4 font-bold text-slate-500 text-[10px] uppercase tracking-widest">Subject</th>

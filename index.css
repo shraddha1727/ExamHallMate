@@ -151,7 +151,7 @@
     }
 
     .table-container {
-        @apply rounded-2xl border border-slate-200 overflow-hidden shadow-sm bg-white;
+        @apply rounded-2xl border border-slate-200 overflow-hidden overflow-x-auto shadow-sm bg-white;
     }
 
     .table-header {

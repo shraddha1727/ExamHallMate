@@ -15,6 +15,9 @@
     "fix:teachers": "node --loader ts-node/esm -r dotenv/config scripts/fix_teachers.ts"
   },
   "dependencies": {
+    "@capacitor/android": "^8.0.1",
+    "@capacitor/cli": "^8.0.1",
+    "@capacitor/core": "^8.0.1",
     "@google/generative-ai": "^0.24.1",
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",

@@ -113,7 +113,16 @@ const LandingPage: React.FC = () => {
   const VIVA_BUILDING_URL = "/viva_college.jpg";
 
   return (
-    <div className="min-h-screen font-sans text-slate-900 bg-slate-50 selection:bg-university-200 selection:text-university-900 overflow-x-hidden" onMouseMove={handleMouseMove}>
+    <div
+      className="min-h-screen font-sans text-slate-900 bg-slate-50 selection:bg-university-200 selection:text-university-900 overflow-x-hidden"
+      onMouseMove={handleMouseMove}
+      style={{
+        backgroundImage: `linear-gradient(to bottom, rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)), url(${VIVA_BUILDING_URL})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}
+    >
 
       {/* 1. NAVBAR */}
       <nav

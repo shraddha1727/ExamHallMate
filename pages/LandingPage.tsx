@@ -117,7 +117,7 @@ const LandingPage: React.FC = () => {
       className="min-h-screen font-sans text-slate-900 bg-slate-50 selection:bg-university-200 selection:text-university-900 overflow-x-hidden"
       onMouseMove={handleMouseMove}
       style={{
-        backgroundImage: `linear-gradient(to bottom, rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)), url(${VIVA_BUILDING_URL})`,
+        backgroundImage: `linear-gradient(to bottom, rgba(248, 250, 252, 0.50), rgba(248, 250, 252, 0.50)), url(${VIVA_BUILDING_URL})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed'

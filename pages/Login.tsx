@@ -145,7 +145,7 @@ const Login: React.FC = () => {
         <div className="hidden lg:flex lg:col-span-2 relative bg-gradient-to-br from-indigo-900 via-slate-900 to-black p-10 flex-col justify-between overflow-hidden">
 
           {/* Background Effects for Left Panel */}
-          <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay"></div>
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
           <div className="absolute -top-24 -left-24 w-64 h-64 bg-indigo-500/30 rounded-full blur-[80px]"></div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_transparent_0%,_#00000080_100%)]"></div>
 

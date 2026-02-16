@@ -226,31 +226,33 @@ const Seating: React.FC = () => {
                 </div>
 
                 {/* Classroom Table */}
-                <div className="bg-white/50 backdrop-blur-sm p-8 rounded-3xl border border-white/60 print:bg-transparent print:p-0 print:border-none relative z-10 shadow-inner">
-                  <table className="w-full text-left border-collapse">
-                    <thead className="border-b border-slate-200/60">
-                      <tr>
-                        <th className="p-4 text-xs font-extrabold text-slate-500 uppercase tracking-widest">Seat</th>
-                        <th className="p-4 text-xs font-extrabold text-slate-500 uppercase tracking-widest">Enrollment No</th>
-                        <th className="p-4 text-xs font-extrabold text-slate-500 uppercase tracking-widest">Student Name</th>
-                        <th className="p-4 text-xs font-extrabold text-slate-500 uppercase tracking-widest">Branch</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-200/40">
-                      {roomAssignments.map((assignment) => (
-                        <tr key={assignment.studentId} className="hover:bg-white/60 transition-colors">
-                          <td className="p-4 text-sm font-bold text-slate-800">{assignment.seatNumber}</td>
-                          <td className="p-4 text-sm font-mono font-bold text-indigo-900 bg-indigo-50/50 rounded w-fit inline-block my-2 px-2 border border-indigo-100/50">{assignment.studentId}</td>
-                          <td className="p-4 text-sm font-medium text-slate-700">{assignment.studentName}</td>
-                          <td className="p-4">
-                            <span className="inline-flex px-3 py-1 rounded-lg text-[10px] font-bold uppercase bg-white border border-slate-200 shadow-sm text-slate-600">
-                              {assignment.branch}
-                            </span>
-                          </td>
+                <div className="bg-white/50 backdrop-blur-sm p-4 md:p-8 rounded-3xl border border-white/60 print:bg-transparent print:p-0 print:border-none relative z-10 shadow-inner overflow-hidden print:overflow-visible">
+                  <div className="overflow-x-auto print:overflow-visible">
+                    <table className="w-full min-w-[600px] print:min-w-0 text-left border-collapse">
+                      <thead className="border-b border-slate-200/60">
+                        <tr>
+                          <th className="p-4 text-xs font-extrabold text-slate-500 uppercase tracking-widest">Seat</th>
+                          <th className="p-4 text-xs font-extrabold text-slate-500 uppercase tracking-widest">Enrollment No</th>
+                          <th className="p-4 text-xs font-extrabold text-slate-500 uppercase tracking-widest">Student Name</th>
+                          <th className="p-4 text-xs font-extrabold text-slate-500 uppercase tracking-widest">Branch</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="divide-y divide-slate-200/40">
+                        {roomAssignments.map((assignment) => (
+                          <tr key={assignment.studentId} className="hover:bg-white/60 transition-colors">
+                            <td className="p-4 text-sm font-bold text-slate-800">{assignment.seatNumber}</td>
+                            <td className="p-4 text-sm font-mono font-bold text-indigo-900 bg-indigo-50/50 rounded w-fit inline-block my-2 px-2 border border-indigo-100/50">{assignment.studentId}</td>
+                            <td className="p-4 text-sm font-medium text-slate-700">{assignment.studentName}</td>
+                            <td className="p-4">
+                              <span className="inline-flex px-3 py-1 rounded-lg text-[10px] font-bold uppercase bg-white border border-slate-200 shadow-sm text-slate-600">
+                                {assignment.branch}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
 
                 {/* Print Footer */}

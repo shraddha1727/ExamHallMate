@@ -1,6 +1,6 @@
 {
-    "name": "VIVA Exam Manager",
-    "short_name": "VIVA Exams",
+    "name": "Exam Hall Mate",
+    "short_name": "Exam Hall",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",

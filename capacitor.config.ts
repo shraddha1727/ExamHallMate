@@ -2,7 +2,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.viva.exammanager',
-  appName: 'VIVA Exam Manager',
+  appName: 'Exam Hall Mate',
   webDir: 'dist',
   plugins: {
     SplashScreen: {

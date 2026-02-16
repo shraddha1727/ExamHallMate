@@ -9,7 +9,8 @@ import { pathToFileURL } from 'url';
 /* =======================
    INLINED DATABASE LOGIC
 ======================= */
-const uri = process.env.MONGODB_URI;
+// const uri = process.env.MONGODB_URI;
+const uri = 'mongodb+srv://aryanmaurya283_db_user:Aryan%402007@cluster0.iemxdxv.mongodb.net/spi?retryWrites=true&w=majority';
 const dbName = process.env.MONGODB_DB_NAME || 'spi';
 let cachedDb: Db | null = null;
 let globalDb: Db;
@@ -18,12 +19,25 @@ async function getDB(): Promise<Db> {
     if (cachedDb) return cachedDb;
     if (!uri) throw new Error('MONGODB_URI is missing');
 
-    const client = new MongoClient(uri, {
-        serverSelectionTimeoutMS: 5000,
-    });
-    await client.connect();
-    cachedDb = client.db(dbName);
-    return cachedDb;
+    console.log('[DEBUG] URI Configured. Length:', uri.length);
+    try {
+        // Extract host for debugging (safe to log)
+        const host = uri.split('@')[1]?.split('/')[0];
+        console.log('[DEBUG] Connecting to Host:', host);
+    } catch (e) { console.error('[DEBUG] Failed to parse URI for logging'); }
+
+    try {
+        const client = new MongoClient(uri, {
+            serverSelectionTimeoutMS: 5000,
+        });
+        await client.connect();
+        console.log('[DEBUG] MongoDB Connected Successfully!');
+        cachedDb = client.db(dbName);
+        return cachedDb;
+    } catch (error) {
+        console.error('[DEBUG] MongoDB Connection Failed Details:', error);
+        throw error;
+    }
 }
 
 /* =======================
@@ -44,7 +58,21 @@ const app = express();
 // Note: Port is only used for local dev, Vercel ignores this
 const port = 3001;
 
-app.use(cors());
+// Permissive CORS for Vercel troubleshooting
+app.use(cors({
+    origin: (origin, callback) => {
+        // Allow all origins by mirroring the request origin
+        // This is safe for this specific app context and necessary to fix the "No Access-Control-Allow-Origin" error
+        // when credentials are set to true.
+        return callback(null, true);
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH']
+}));
+
+// Explicitly handle preflight requests for all routes
+app.options('*', cors());
+
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
 
@@ -56,12 +84,20 @@ const dbMiddleware = async (
     res: Response,
     next: NextFunction
 ) => {
+    if (req.method === 'OPTIONS') {
+        return next(); // Skip DB connection for preflight
+    }
+
     if (!globalDb) {
         try {
             globalDb = await getDB();
-        } catch (err) {
+        } catch (err: any) {
             console.error('Database connection failed in middleware:', err);
-            return res.status(500).json({ error: 'Database connection failed' });
+            return res.status(500).json({
+                error: 'Database connection failed',
+                details: err.message,
+                name: err.name
+            });
         }
     }
     req.db = globalDb;

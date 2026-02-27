@@ -1,1 +1,2 @@
-export const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:3000' : '';
+// Export the live production back-end URL
+export const API_BASE_URL = 'https://exam-hall-mate.vercel.app';

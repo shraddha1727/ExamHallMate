@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { fetchStudentStatsApi } from '../services/students';
 import DepartmentGrid, { DepartmentStat } from '../components/DepartmentGrid';
 import SemesterGrid from '../components/SemesterGrid';

@@ -84,6 +84,10 @@ const Login: React.FC = () => {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (activeTab === 'Admin') {
+      setError("New Admin registration is not allowed.");
+      return;
+    }
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
       return;
@@ -347,9 +351,11 @@ const Login: React.FC = () => {
 
           <div className="mt-auto pt-8 text-center">
             {view === 'LOGIN' ? (
-              <p className="text-slate-400">
-                Don't have an account? <button onClick={() => setView('REGISTER')} className="text-white font-bold hover:text-indigo-400 transition-colors ml-1">Register Now</button>
-              </p>
+              activeTab === 'Staff' && (
+                <p className="text-slate-400">
+                  Don't have an account? <button onClick={() => setView('REGISTER')} className="text-white font-bold hover:text-indigo-400 transition-colors ml-1">Register Now</button>
+                </p>
+              )
             ) : (
               <button onClick={() => setView('LOGIN')} className="text-slate-400 font-bold hover:text-white transition-colors">Back to Login</button>
             )}

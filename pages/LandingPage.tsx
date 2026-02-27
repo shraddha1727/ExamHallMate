@@ -185,7 +185,7 @@ const LandingPage: React.FC = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm mb-8 animate-fade-in-down hover:shadow-md transition-shadow cursor-default group">
             <span className="w-2 h-2 rounded-full bg-university-500 animate-pulse group-hover:scale-150 transition-transform"></span>
-            <span className="text-xs font-bold text-slate-600 uppercase tracking-wide">Academic Year 2024-2025</span>
+            <span className="text-xs font-bold text-slate-600 uppercase tracking-wide">Academic Year 2025-2026</span>
           </div>
 
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 animate-fade-in-up leading-tight">

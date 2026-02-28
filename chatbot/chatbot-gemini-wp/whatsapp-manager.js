@@ -66,7 +66,7 @@ class WhatsAppManager {
       console.log("✅ WhatsApp client is ready! The bot is now running.");
     });
 
-    this.client.on("message", this.onMessage.bind(this));
+    this.client.on("message_create", this.onMessage.bind(this));
 
     this.client.on("disconnected", (reason) => {
       console.log("🔌 WhatsApp client was disconnected:", reason);
@@ -81,7 +81,7 @@ class WhatsAppManager {
     }
 
     const chat = await message.getChat();
-    if (chat.isGroup || !message.body) return;
+    if (message.fromMe || chat.isGroup || !message.body) return;
 
     let contactName = "Unknown";
     let contactNumber = message.from;

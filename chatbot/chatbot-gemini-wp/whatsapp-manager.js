@@ -14,7 +14,7 @@ class WhatsAppManager {
 
     this.client = new Client({
       authStrategy: new LocalAuth({
-        dataPath: '/usr/src/app/.wwebjs_auth' // Explicit path for volume mounting
+        dataPath: './.wwebjs_auth'
       }),
       webVersionCache: {
         type: 'remote',

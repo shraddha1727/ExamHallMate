@@ -19,6 +19,17 @@ app.get('/', (req, res) => {
 });
 
 app.get('/qr', (req, res) => {
+    if (bot.isReady) {
+        return res.send(`
+            <html>
+                <body style="font-family: sans-serif; text-align: center; padding: 50px;">
+                    <h1>✅ WhatsApp Bot is Ready!</h1>
+                    <p>It is already authenticated and actively running. No QR scan is needed.</p>
+                </body>
+            </html>
+        `);
+    }
+
     const qr = bot.qrCodeData;
     if (!qr) {
         return res.send(`

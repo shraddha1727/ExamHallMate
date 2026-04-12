@@ -295,6 +295,7 @@ const InvigilationPage: React.FC = () => {
                 <tr>
                   <th className="px-8 py-5 text-xs font-extrabold text-slate-500 uppercase tracking-widest text-left pl-10">Faculty Details</th>
                   <th className="px-6 py-5 text-xs font-extrabold text-slate-500 uppercase tracking-widest">Exam & Subject</th>
+                  <th className="px-6 py-5 text-xs font-extrabold text-slate-500 uppercase tracking-widest">Start Time</th>
                   <th className="px-6 py-5 text-xs font-extrabold text-slate-500 uppercase tracking-widest">Location</th>
                   <th className="px-6 py-5 text-xs font-extrabold text-slate-500 uppercase tracking-widest">Role</th>
                 </tr>
@@ -320,7 +321,25 @@ const InvigilationPage: React.FC = () => {
                       <td className="px-6 py-5">
                         <div>
                           <p className="font-bold text-slate-700">{e?.subjectName || i.examId}</p>
-                          <span className="text-[10px] font-bold text-slate-400 font-mono bg-white/50 px-1.5 py-0.5 rounded border border-white/60">{e?.subjectCode}</span>
+                          <p className="text-xs text-slate-500 font-medium">{e?.subjectCode || ''}</p>
+                        </div>
+                      </td>
+                      <td className="px-6 py-5">
+                        <div className="flex items-center gap-2">
+                          <div className="p-1.5 bg-white/60 rounded-lg">
+                            <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                          </div>
+                          <span className="text-[12px] font-bold text-slate-600 font-mono bg-white/50 px-2 py-1 rounded border border-white/60">
+                            {e?.startTime ? (
+                              (() => {
+                                const [h, m] = e.startTime.split(':');
+                                const d = new Date();
+                                d.setHours(parseInt(h, 10));
+                                d.setMinutes(parseInt(m, 10));
+                                return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                              })()
+                            ) : 'N/A'}
+                          </span>
                         </div>
                       </td>
                       <td className="px-6 py-5">

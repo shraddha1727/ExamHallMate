@@ -100,16 +100,12 @@ How can I assist you right now?`;
         const subject = (details.exam && details.exam.subjectName) ? details.exam.subjectName : "Not Scheduled";
         const invName = (typeof details.invigilator === 'object' && details.invigilator.name) ? details.invigilator.name : (details.invigilator || "Not Assigned");
 
-        const firstE = (details.students && details.students.length > 0) ? details.students[0].enrollNo : "N/A";
-        const lastE = (details.students && details.students.length > 0) ? details.students[details.students.length - 1].enrollNo : "N/A";
-
         finalResponse = aiResponse + `\n\n🏫 *ROOM ${roomNum} REPORT*
 ━━━━━━━━━━━━━━━━━━━━
 📑 *EXAM:* *${subject}*
 👮 *INVIGILATOR:* *${invName}*
 
 👥 *TOTAL STUDENTS:* *${details.studentCount}*
-📍 *RANGE:* *${firstE}* ➔ *${lastE}*
 ━━━━━━━━━━━━━━━━━━━━`;
       }
     }

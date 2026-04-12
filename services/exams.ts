@@ -55,4 +55,3 @@ export const deleteExamApi = async (id: string) => {
   });
   return handleResponse(res);
 };
-

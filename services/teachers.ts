@@ -1,3 +1,4 @@
+// HTTP wrapper for fetching and updating teacher objects.
 import { Teacher } from '../types';
 import { getSession } from './auth';
 

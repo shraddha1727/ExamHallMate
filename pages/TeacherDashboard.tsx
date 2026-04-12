@@ -1,3 +1,4 @@
+// Teacher-specific restricted dashboard component.
 import React, { useEffect, useState } from 'react';
 import { fetchInvigilationsApi } from '../services/invigilation';
 import { fetchExamsApi } from '../services/exams';

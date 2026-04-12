@@ -15,6 +15,7 @@ const KEYS = {
   CURRENT_ROLE: 'viva_current_role'
 };
 
+// Authenticates the user with the backend API and securely manages the browser session state
 export const login = async (email: string, password: string): Promise<{ success: boolean; user?: UserSession; error?: string }> => {
   try {
     const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
@@ -57,6 +58,7 @@ export const getSession = (): UserSession | null => {
   return data ? JSON.parse(data) : null;
 };
 
+// Validates if the user currently holds an active auth token in their browser
 export const isAuthenticated = (): boolean => {
   return !!localStorage.getItem(SESSION_KEY);
 };

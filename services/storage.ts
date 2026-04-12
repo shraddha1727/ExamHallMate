@@ -1,3 +1,4 @@
+// LocalStorage syncing abstraction helpers.
 import { Student, Room, Exam, Invigilation, UserRole } from '../types';
 
 const KEYS = {

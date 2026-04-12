@@ -1,3 +1,4 @@
+// Abstract database layers and structural queries.
 import { MongoClient, Db } from 'mongodb';
 
 const uri = process.env.MONGODB_URI;

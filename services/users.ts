@@ -1,3 +1,4 @@
+// Centralized API module handling cryptography requests.
 import { getSession } from './auth';
 
 import { API_BASE_URL } from './config';

@@ -11,6 +11,14 @@ import { Plus, UserCheck, Zap, Briefcase, Calendar, Home, CheckCircle2 } from 'l
 import { v4 as uuidv4 } from 'uuid';
 import Alert from '../components/Alert';
 
+/**
+ * =========================================================================
+ * ARCHITECTURE NOTE: INVIGILATION PAGE (Frontend & Business Logic)
+ * =========================================================================
+ * This page acts as the central hub for mapping Teachers to Examination Duty.
+ * It manages both Manual Assignment and AI-powered Automatic Allocation.
+ * It uses React hooks (useState, useEffect) to manage complex application state.
+ */
 const InvigilationPage: React.FC = () => {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [exams, setExams] = useState<Exam[]>([]);
@@ -27,6 +35,12 @@ const InvigilationPage: React.FC = () => {
   });
   const [message, setMessage] = useState<{ type: 'success' | 'error' | 'info' | 'warning', message: string } | null>(null);
 
+  /**
+   * ARCHITECTURE NOTE: PARALLEL DATA FETCHING
+   * We use 'Promise.all' to fetch Teachers, Exams, Rooms, Students, and Assignments 
+   * from the Node.js backend simultaneously. This reduces network bottleneck and makes 
+   * the dashboard load much faster compared to fetching them sequentially one by one.
+   */
   const loadData = async () => {
     try {
       setLoading(true);
@@ -81,6 +95,13 @@ const InvigilationPage: React.FC = () => {
     }
   };
 
+  /**
+   * ARCHITECTURE NOTE: AI AUTO-ALLOCATION INTEGRATION
+   * When the user clicks "AI Auto-Allocate":
+   * 1. We map constraints (Teacher gender balancing, Exam duration, Required Rooms for seating).
+   * 2. We pass these variables into 'generateInvigilationSchedule' (Custom Scheduling Algorithm).
+   * 3. Overwrite old data: We issue API calls to clear old assignments and bulk-save the newly generated schedule.
+   */
   const handleAutoAssign = async () => {
     if (!confirm('Are you sure you want to run auto-allocation? This will clear all existing assignments.')) return;
 

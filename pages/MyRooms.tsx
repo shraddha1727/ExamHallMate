@@ -1,3 +1,4 @@
+// Shows assigned room seating capacities to the staff.
 import React, { useEffect, useState } from 'react';
 import { fetchInvigilationsApi } from '../services/invigilation';
 import { fetchExamsApi } from '../services/exams';

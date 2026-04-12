@@ -1,3 +1,4 @@
+// REST API endpoints connector for Exams mapping.
 import { Exam } from '../types';
 import { getSession } from './auth';
 

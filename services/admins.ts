@@ -1,3 +1,4 @@
+// Handles SuperAdmin-specific API operations.
 import { Admin } from '../types';
 import { getSession } from './auth';
 

@@ -1,3 +1,4 @@
+// Secure profile modifier for teacher accounts.
 import React, { useEffect, useState } from 'react';
 import { fetchTeachersApi } from '../services/teachers';
 import { getCurrentUser } from '../services/auth';

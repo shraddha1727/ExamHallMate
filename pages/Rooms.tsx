@@ -23,25 +23,27 @@ const Rooms: React.FC = () => {
     }
   };
 
+  // Upserts logic for adding a new room or updating an existing one
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentRoom.roomNumber || !currentRoom.capacity) return;
 
     const roomToSave: Partial<Room> = {
       ...currentRoom,
-      capacity: Number(currentRoom.capacity),
+      capacity: Number(currentRoom.capacity), // Ensure capacity is an integer
     };
 
+    // Prevent ID validation error when creating a completely new room
     if (!roomToSave.id) {
       delete roomToSave.id;
     }
 
     try {
-      await saveRoomApi(roomToSave as Room);
+      await saveRoomApi(roomToSave as Room); // Send payload to backend
       setMessage({ type: 'success', message: 'Room configuration saved.' });
       setIsEditing(false);
       setCurrentRoom({});
-      await loadRooms();
+      await loadRooms(); // Refresh the grid to show the newest room
     } catch (error) {
       setMessage({ type: 'error', message: 'Failed to save room.' });
     }

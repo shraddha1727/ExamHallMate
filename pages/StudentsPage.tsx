@@ -1,4 +1,4 @@
- import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { fetchStudentStatsApi } from '../services/students';
 import DepartmentGrid, { DepartmentStat } from '../components/DepartmentGrid';
 import SemesterGrid from '../components/SemesterGrid';
@@ -17,6 +17,7 @@ const StudentsPage: React.FC = () => {
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
   const [selectedSemester, setSelectedSemester] = useState<string | null>(null);
 
+  // Fetch overview aggregates from the backend separated by branches
   const fetchStats = useCallback(async () => {
     try {
       setLoading(true);

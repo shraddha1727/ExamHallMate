@@ -1,3 +1,4 @@
+// Connects to the /api/rooms backend logic.
 import { Room } from '../types';
 import { getSession } from './auth';
 

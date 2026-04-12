@@ -1,3 +1,11 @@
+/**
+ * =========================================================================
+ * ARCHITECTURE NOTE: EXPRESS.JS BACKEND API (Node.js)
+ * =========================================================================
+ * This file is the entire Node.js server that handles all backend operations.
+ * It connects the React frontend to the MongoDB database. We use 'bcrypt' for securely 
+ * hashing passwords and 'cors' to allow the frontend to interact with this backend.
+ */
 import { MongoClient, Db } from 'mongodb';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
@@ -15,6 +23,11 @@ const dbName = process.env.MONGODB_DB_NAME || 'spi';
 let cachedDb: Db | null = null;
 let globalDb: Db;
 
+/**
+ * ARCHITECTURE NOTE: MONGODB ATLAS CONNECTION POOLING
+ * We cache the database connection instance here ('cachedDb'). This ensures that every 
+ * single API request doesn't open a brand new sluggish connection to the database, drastically optimizing server speed.
+ */
 async function getDB(): Promise<Db> {
     if (cachedDb) return cachedDb;
     if (!uri) throw new Error('MONGODB_URI is missing');
@@ -107,7 +120,10 @@ const dbMiddleware = async (
 app.use(dbMiddleware);
 
 /* =======================
-   AUTH LOGIN
+   ARCHITECTURE NOTE: AUTH LOGIN STRATEGY
+   This endpoint accepts an email and password. It queries both the "admins" and "teachers" 
+   collections. We use 'bcrypt.compare' to safely verify the cryptographically hashed password.
+   If verified, we return a success payload specifying their Role (used by React's ProtectedRoutes).
 ======================= */
 app.post('/api/auth/login', async (req: Request, res: Response) => {
     const { email, password } = req.body;

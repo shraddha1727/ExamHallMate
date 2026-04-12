@@ -1,3 +1,4 @@
+// Admin panel for managing teacher CRUD operations.
 import React, { useState, useEffect, useCallback } from 'react';
 import { Teacher } from '../types';
 import Alert from '../components/Alert';

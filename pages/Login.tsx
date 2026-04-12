@@ -1,3 +1,4 @@
+// Handles user authentication via JWT and roles.
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { login } from '../services/auth';

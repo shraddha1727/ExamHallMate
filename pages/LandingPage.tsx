@@ -1,3 +1,4 @@
+// Public homepage containing marketing hero sections.
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Server, Database, Code, FileText, UserCog, Users, GraduationCap, ShieldCheck, Clock, Layout, Play, ChevronRight, Award } from 'lucide-react';

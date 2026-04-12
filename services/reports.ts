@@ -1,3 +1,4 @@
+// Data aggregation functions for reporting metrics.
 import { Report } from '../types';
 import { getSession } from './auth';
 

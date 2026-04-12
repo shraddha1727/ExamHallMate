@@ -16,9 +16,11 @@ const Dashboard: React.FC = () => {
   const [recentExams, setRecentExams] = useState<any[]>([]);
   const session = getSession();
 
+  // Fetch essential data when the dashboard loads
   useEffect(() => {
     const load = async () => {
       try {
+        // Load rooms, exams, and student records in parallel for faster loading
         const [rooms, exams, studentStats] = await Promise.all([
           fetchRoomsApi(),
           fetchExamsApi(),
@@ -27,6 +29,7 @@ const Dashboard: React.FC = () => {
 
         const totalStudents = studentStats.reduce((acc, stat) => acc + stat.count, 0);
 
+        // Calculate total stats for the top KPI metric cards
         setStats({
           rooms: rooms.length,
           students: totalStudents,
@@ -34,6 +37,7 @@ const Dashboard: React.FC = () => {
           activeCapacity: rooms.reduce((sum, r) => (r.isActive ? sum + r.capacity : sum), 0)
         });
 
+        // Filter and sort the 5 most recent exams for the schedule table
         const sorted = [...exams].sort((a, b) => a.examDate.localeCompare(b.examDate)).slice(0, 5);
         setRecentExams(sorted);
       } catch (err) {
@@ -106,7 +110,7 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* 2. KPI Cards */}
+      {/* 2. KPI Cards - Displays the aggregated data */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard title="Total Students" value={stats.students} icon={Users} colorClass="bg-blue-600" trend={true} />
         <StatCard title="Active Classrooms" value={stats.rooms} icon={Grid} colorClass="bg-indigo-600" />

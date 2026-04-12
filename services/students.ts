@@ -1,3 +1,4 @@
+// Bulk payload processor for /api/students endpoints.
 import { Student } from '../types';
 import { getSession } from './auth';
 

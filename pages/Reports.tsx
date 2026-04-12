@@ -1,3 +1,4 @@
+// Generates analytical graphs and metrics for admins.
 import React, { useState, useEffect } from 'react';
 import { Report } from '../types';
 import { fetchReportsApi, resolveReportApi } from '../services/reports';

@@ -1,9 +1,11 @@
 import { Student, Room, Exam, SeatAssignment, SeatingResult } from '../types';
+
+// Calculates dynamic bench matrices using round-robin distribution to prevent cheating
 export const generateSeatingForExam = (exam: Exam, allStudents: Student[], allRooms: Room[]): { success: boolean; result?: SeatingResult; error?: string } => {
 
   // 1. Filter Students matching exam criteria
   // Logic: Student Branch must be in Exam Branches AND Student Semester must match
-  const eligibleStudents = allStudents.filter(s => 
+  const eligibleStudents = allStudents.filter(s =>
     exam.branch.includes(s.branch) && s.semester == exam.semester
   );
 
@@ -19,9 +21,9 @@ export const generateSeatingForExam = (exam: Exam, allStudents: Student[], allRo
   const totalCapacity = activeRooms.reduce((sum, r) => sum + r.capacity, 0);
 
   if (totalCapacity < eligibleStudents.length) {
-    return { 
-      success: false, 
-      error: `Insufficient capacity! Need ${eligibleStudents.length} seats, but only have ${totalCapacity} active seats.` 
+    return {
+      success: false,
+      error: `Insufficient capacity! Need ${eligibleStudents.length} seats, but only have ${totalCapacity} active seats.`
     };
   }
 
@@ -62,7 +64,7 @@ export const generateSeatingForExam = (exam: Exam, allStudents: Student[], allRo
       if (studentIdx >= mixedStudents.length) break;
 
       const student = mixedStudents[studentIdx];
-      
+
       // Calculate Grid Position (4 columns wide default)
       // Row = ceil(seat / 4)
       // Col = (seat-1) % 4 + 1

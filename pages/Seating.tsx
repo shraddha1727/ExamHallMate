@@ -55,19 +55,21 @@ const Seating: React.FC = () => {
     loadSeating();
   }, [selectedExamId]);
 
+  // Triggers the AI Seating Allocation logic based on active exam parameters
   const handleGenerate = async () => {
     const exam = exams.find(e => e.id === selectedExamId);
     if (!exam) return;
 
     if (currentSeating && !confirm('A seating arrangement already exists for this exam. Do you want to overwrite it?')) {
-      return;
+      return; // Stop generation to prevent accidentally losing previous setups
     }
 
     console.log('Generating seating with:', { exam, students, rooms });
+    // Core Logic mapping students to avoid adjacent branch cheating loops
     const result = generateSeatingForExam(exam, students, rooms);
     if (result.success && result.result) {
       try {
-        await saveSeatingApi(result.result);
+        await saveSeatingApi(result.result); // Save map to database
         setCurrentSeating(result.result);
         setMessage({ type: 'success', message: 'Seating plan generated successfully!' });
       } catch (error) {

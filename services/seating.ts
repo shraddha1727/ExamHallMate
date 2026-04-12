@@ -1,3 +1,4 @@
+// Bridge connecting visual mapping to persistence layer APIs.
 import { SeatingResult } from '../types';
 import { getSession } from './auth';
 

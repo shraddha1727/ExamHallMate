@@ -1,3 +1,4 @@
+// Displays currently assigned exam duties for the logged-in staff.
 import React, { useEffect, useState } from 'react';
 import { fetchInvigilationsApi } from '../services/invigilation';
 import { fetchExamsApi } from '../services/exams';

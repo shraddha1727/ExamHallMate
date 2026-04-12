@@ -1,3 +1,11 @@
+/**
+ * =========================================================================
+ * ARCHITECTURE NOTE: APP ROUTING & AUTHENTICATION (React Router / Frontend)
+ * =========================================================================
+ * This is the root component of the React Frontend.
+ * It uses 'react-router-dom' for navigating between pages without reloading the window.
+ * It maps URLs (like /admin/dashboard) to specific React Components (like <Dashboard />).
+ */
 import React, { useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
@@ -36,7 +44,13 @@ const AppLayout: React.FC = () => {
   );
 };
 
-// Protected Route Guard
+/**
+ * ARCHITECTURE NOTE: PROTECTED ROUTE COMPONENT (Security)
+ * This acts as a security guard for secure pages. If a user tries to access the Dashboard
+ * without logging in (checked via isAuthenticated API), this component intercepts them
+ * and redirects them to the /login page securely.
+ * It also checks 'allowedRole' to ensure Teachers cannot access SuperAdmin pages and vice versa.
+ */
 const ProtectedRoute: React.FC<{ allowedRole: 'SuperAdmin' | 'Teacher' }> = ({ allowedRole }) => {
   const isAuth = isAuthenticated();
   const session = getSession();

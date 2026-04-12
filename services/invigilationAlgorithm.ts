@@ -1,3 +1,4 @@
+// Custom greedy-backtracking algorithm for dynamic schedule sorting.
 /**
  * @file services/invigilationAlgorithm.ts
  * @description Corrected, optimized + bug‑free auto‑invigilator allocation logic.

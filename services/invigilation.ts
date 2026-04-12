@@ -1,3 +1,4 @@
+// API endpoints for Exam Assignment and Duty mappings.
 import { Invigilation } from '../types';
 import { getSession } from './auth';
 

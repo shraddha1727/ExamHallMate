@@ -22,19 +22,22 @@ const Exams: React.FC = () => {
     }
   };
 
+  // Parses an uploaded CSV file containing exam schedules
   const handleTimetableUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     try {
+      // Convert CSV raw data into a structured JS array
       const data = await parseCSV(file);
       const newExams: Exam[] = [];
 
+      // Map each CSV row to our Exam interface structure
       data.forEach((row: any, i: number) => {
         const branches = row.branch ? row.branch.split(',').map((b: string) => b.trim()) : [];
         if (branches.length && row.subjectCode && row.examDate) {
           newExams.push({
-            id: `${row.subjectCode}-${row.examDate}-${i}`, // Deterministic ID
+            id: `${row.subjectCode}-${row.examDate}-${i}`, // Generate deterministic ID
             subjectCode: row.subjectCode,
             subjectName: row.subjectName || 'Unknown Subject',
             examDate: row.examDate,
@@ -46,9 +49,10 @@ const Exams: React.FC = () => {
         }
       });
 
+      // Perform bulk database insertion for all valid exams
       if (newExams.length > 0) {
         await bulkUpsertExamsApi(newExams);
-        await loadExams();
+        await loadExams(); // Refresh table state after upload
         setMessage({ type: 'success', message: `Imported ${newExams.length} exams successfully.` });
       } else {
         setMessage({ type: 'error', message: 'No valid records found in CSV.' });
